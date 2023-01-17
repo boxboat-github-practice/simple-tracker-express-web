@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head> 
+  <script>
+    window.onload = async function() {
+      let employees = await fetch('<%- env.apiUrl %>/employees').then(res=>res.json())
+      let contract = await fetch('<%- env.apiUrl %>/contracts/<%- contractId %>').then(res=>res.json())
+      let client = await fetch(`<%- env.apiUrl %>/clients/${contract.clientId}`).then(res=>res.json())
+      let list = document.getElementById("list")
+
+      employees.forEach((employee) => {
+        let item = document.createElement("dd")
+        let link = document.createElement("a")
+        let linkText = document.createTextNode(`${employee.name}`)
+        
+        link.setAttribute("onclick", `linkEmployee(${employee.id}, ${client.id})`)
+        link.setAttribute("href", `<%- env.url %>/contractSummary/${client.id}`)
+        link.appendChild(linkText)
+        item.appendChild(link)
+        list.appendChild(item)
+      })
+    }
+
+    async function linkEmployee(employeeId, clientId){
+      let history = {
+        employeeId: employeeId,
+        contractId: "<%- contractId %>",
+        clientId: clientId,
+        role: "engineer"
+      }
+
+      fetch('<%- env.apiUrl %>/history', { 
+        method: 'POST',  
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(history)
+      })
+    }
+  </script>
+</head>
+<body>
+  <a href="<%- env.url %>/">Employees</a>
+  <a href="<%- env.url %>/clientList">Clients</a>
+  
+  <dl id="list">
+    <dt>Employees: </dt>
+  </dl>
+</body>

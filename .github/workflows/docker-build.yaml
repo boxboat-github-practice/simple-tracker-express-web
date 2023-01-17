@@ -1,0 +1,32 @@
+name: Build and push docker image to ghcr
+
+on: 
+  workflow_dispatch:
+  workflow_call:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+      
+    - name: Build the Docker image
+      run: |
+          docker build -t ghcr.io/${GITHUB_REPOSITORY,,}:$(date +%Y%m%d.$GITHUB_RUN_NUMBER) .
+          
+    - name: Log into registry ${{ env.REGISTRY }}
+      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}  
+        
+    - name: Docker Publish
+      run: |
+        docker push ghcr.io/${GITHUB_REPOSITORY,,}:$(date +%Y%m%d.$GITHUB_RUN_NUMBER)

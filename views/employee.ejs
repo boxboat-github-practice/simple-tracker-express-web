@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<head>
+  <script>
+    window.onload = async function () {
+      let employee = await fetch('<%- env.apiUrl %>/employees/<%- id %>').then(res=>res.json())
+      let history = await fetch(`<%- env.apiUrl %>/history?employeeId=${employee.id}`).then(res=>res.json())
+      let name = document.getElementById("employee")
+      let contracts = document.getElementById("history")
+      let github = document.getElementById("github")
+
+      name.appendChild(document.createTextNode(`${employee.name}`))
+
+      github.setAttribute("href", `https://github.com/${employee.github}`)
+      github.appendChild(document.createTextNode(`${employee.github}`))
+      
+      history.forEach(e=>{
+        let item = document.createElement("dd")
+        let link = document.createElement("a")
+        let linkText = document.createTextNode(`- ${e.clientName} `)
+
+        link.setAttribute("href", `<%- env.url %>/contractSummary/${e.contractId}`)
+        link.appendChild(linkText)
+
+        item.appendChild(link)
+        contracts.appendChild(item)
+      })
+    }
+
+  </script>
+</head>
+<body>
+  <a href="<%- env.url %>/">Employees</a>
+  <a href="<%- env.url %>/clientList">Clients</a>
+
+  <h1 id="employee"></h1>
+  github: <a id="github"></a><br>
+  <button onclick="window.location.href='<%- env.url %>/contractList?id=<%- id %>'">Add Contract</button>
+  <br>
+  <dl id="history">
+    <dt>History:</dt>
+  </dl>
+</body>

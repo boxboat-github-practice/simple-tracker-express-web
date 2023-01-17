@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+  <style>
+    table, td {
+      border: 1px solid black;
+    }
+  </style>
+  <script>
+    window.onload = async function() {
+      let employees = await fetch('<%- env.apiUrl %>/employees').then(res=>res.json())
+      var table = document.getElementById("tableBody")
+      for(e of employees) {
+        let history = await fetch(`<%- env.apiUrl %>/history?employeeId=${e.id}`).then(res=>res.json())
+        let row = table.insertRow(-1)
+        let name = row.insertCell(0)
+        let contract = row.insertCell(1)
+
+        let nameLink = document.createElement("a")
+        let linkText = document.createTextNode(`${e.name}`)
+
+        nameLink.setAttribute("href", `<%- env.url %>/employeeProfile/${e.id}`)
+        nameLink.appendChild(linkText)
+        name.appendChild(nameLink)
+
+        if(history.length > 0) {
+          let contractLink = document.createElement("a")
+          let contractLinkText = document.createTextNode(`${history[0].clientName}`)
+
+          contractLink.setAttribute("href", `<%- env.url %>/contractSummary/${history[0].contractId}`)
+          contractLink.appendChild(contractLinkText)
+          contract.appendChild(contractLink)
+        } else {
+          contract.innerHTML = "none" 
+        }
+      }
+    }
+
+    function addEmployee() {
+      let name = document.getElementById("employeeName").value
+      let github = document.getElementById("githubName").value
+      let data = {
+        name: name,
+        github: github
+      }
+
+      fetch("<%- env.apiUrl %>/employees", { 
+        method: 'POST',  
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })     
+    }
+  </script>
+</head>
+<body>
+  <a href="<%- env.url %>/clientList">Clients</a>
+  
+  <form>
+    <label for="employeeName">Employee Name: </label>
+    <input type="text" id="employeeName" name="employeeName"><br>
+    <label for="githubName">Github Username: </label>
+    <input type="text" id="githubName" name="githubName"><br>
+    <button onclick="addEmployee()">Add New Employee</button>
+  </form> 
+
+  <table id="employeeTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Contract</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+</body>
