@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head>
+  <script>
+    window.onload = () => {
+      fetch('http://localhost:8080/contracts/<%- id %>')
+          .then(res=>res.json())
+          .then(data=>{
+            let client = data
+            let name = document.getElementById("name")
+            let dates = document.getElementById("dates")
+            let type = document.getElementById("type")
+            let tech = document.getElementById("tech")
+
+            name.appendChild(document.createTextNode(`${client.name}`))
+            dates.appendChild(document.createTextNode(`${client.startDate} - ${client.endDate}`))
+            type.appendChild(document.createTextNode(`${client.type}`))
+
+            
+            client.tech.forEach(e=>{
+              let item = document.createElement("dd")
+              item.innerText = `- ${e}`
+              tech.appendChild(item)
+            })
+          })
+    }
+  </script>
+</head>
+<body>
+  <h1 id="name"></h1>
+  Dates: <div id="dates"></div>
+  <br>
+  Contract Type: <div id="type"></div>
+  <dl id="tech">
+    <dt>Stack:</dt>
+  </dl>
+</body>

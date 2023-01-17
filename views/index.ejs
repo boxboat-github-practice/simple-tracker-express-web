@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<head>
+  <style>
+    table, td {
+      border: 1px solid black;
+    }
+  </style>
+  <script>
+    window.onload = () => {
+      fetch('http://localhost:8080/employees')
+        .then(res=>res.json())
+        .then(data => {
+          let employees = data
+          var table = document.getElementById("tableBody")
+          employees.forEach(e => {
+            console.log (`appending ${e.name}`)
+            console.log(e)
+            let row = table.insertRow(-1)
+            let name = row.insertCell(0)
+            let contract = row.insertCell(1)
+
+            let nameLink = document.createElement("a")
+            let linkText = document.createTextNode(`${e.name}`)
+
+            nameLink.setAttribute("href", `http://localhost:8080/profile/${e.id}`)
+            nameLink.appendChild(linkText)
+            name.appendChild(nameLink)
+
+            if(e.contract !== "none") {
+              let contractLink = document.createElement("a")
+              let contractLinkText = document.createTextNode(`${e.contract.name}`)
+              contractLink.setAttribute("href", `http://localhost:8080/client/${e.contract.id}`)
+              contractLink.appendChild(contractLinkText)
+              contract.appendChild(contractLink)
+            } else {
+              contract.innerHTML = e.contract
+            }
+          })
+        })
+    }
+  </script>
+</head>
+<body>
+  <table id="employeeTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Contract</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+</body>
