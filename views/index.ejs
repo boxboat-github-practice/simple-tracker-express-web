@@ -7,7 +7,8 @@
   </style>
   <script>
     window.onload = async () => {
-      fetch('http://localhost:8080/employees')
+      console.log("<%- env.url %>")
+      fetch('<%- env.url %>/employees')
         .then(res=>res.json())
         .then(data => {
           let employees = data
@@ -22,14 +23,14 @@
             let nameLink = document.createElement("a")
             let linkText = document.createTextNode(`${e.name}`)
 
-            nameLink.setAttribute("href", `http://localhost:8080/profile/${e.id}`)
+            nameLink.setAttribute("href", `<%- env.url %>/profile/${e.id}`)
             nameLink.appendChild(linkText)
             name.appendChild(nameLink)
 
             if(e.active == true) {
               let contractLink = document.createElement("a")
               let contractLinkText = document.createTextNode(`${e.history[0].name}`)
-              contractLink.setAttribute("href", `http://localhost:8080/client/${e.history[0].id}`)
+              contractLink.setAttribute("href", `<%- env.url %>/client/${e.history[0].id}`)
               contractLink.appendChild(contractLinkText)
               contract.appendChild(contractLink)
             } else {

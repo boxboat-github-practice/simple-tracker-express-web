@@ -2,7 +2,7 @@
 <head>
   <script>
     window.onload = () => {
-      fetch('http://localhost:8080/employees/<%- id %>')
+      fetch('<%- env.url %>/employees/<%- id %>')
           .then(res=>res.json())
           .then(data=>{
             let user = data
@@ -21,7 +21,7 @@
               let link = document.createElement("a")
               let linkText = document.createTextNode(`- ${e.name}`)
 
-              link.setAttribute("href", `http://localhost:8080/client/${e.id}`)
+              link.setAttribute("href", `<%- env.url %>/client/${e.id}`)
               link.appendChild(linkText)
 
               item.appendChild(link)
