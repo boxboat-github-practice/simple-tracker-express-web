@@ -6,7 +6,7 @@
     }
   </style>
   <script>
-    window.onload = () => {
+    window.onload = async () => {
       fetch('http://localhost:8080/employees')
         .then(res=>res.json())
         .then(data => {
@@ -26,14 +26,14 @@
             nameLink.appendChild(linkText)
             name.appendChild(nameLink)
 
-            if(e.contract !== "none") {
+            if(e.active == true) {
               let contractLink = document.createElement("a")
-              let contractLinkText = document.createTextNode(`${e.contract.name}`)
-              contractLink.setAttribute("href", `http://localhost:8080/client/${e.contract.id}`)
+              let contractLinkText = document.createTextNode(`${e.history[0].name}`)
+              contractLink.setAttribute("href", `http://localhost:8080/client/${e.history[0].id}`)
               contractLink.appendChild(contractLinkText)
               contract.appendChild(contractLink)
             } else {
-              contract.innerHTML = e.contract
+              contract.innerHTML = "none" 
             }
           })
         })

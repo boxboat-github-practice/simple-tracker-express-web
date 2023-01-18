@@ -2,7 +2,7 @@ exports.data = {
   "employees": [
     {
       "name": "Mike",
-      "contract": 0,
+      "active": true,
       "github": "mbmcmullen27",
       "id": 1,
       "history": [
@@ -13,13 +13,12 @@ exports.data = {
     },
     {
       "name": "Dan",
-      "contract": "none",
+      "active": false,
       "github": "dkoch84",
       "id": 2,
       "history": [
-        {id: 4, name: "ecolab", role: "architect"},
-        {id: 5, name: "evergy", role: "architect"},
-        {id: 6, name: "travelport", role: "architect"}
+        {id: 1, name: "delta", role: "architect"},
+        {id: 4, name: "travelport", role: "architect"}
       ]
     }
   ],
@@ -37,6 +36,42 @@ exports.data = {
         "cloudformation",
         "argocd",
         "jboss"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "securegive",
+      "type": "containerization",
+      "startDate": "9/2/2022",
+      "endDate": "12/14/2022",
+      "tech": [
+        "openshift",
+        "aws",
+        "cloudformation",
+        "argocd",
+        "jboss"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "cca",
+      "type": "modernization",
+      "startDate": "9/2/2022",
+      "endDate": "12/14/2022",
+      "tech": [
+        "rancher",
+        "gitlab",
+        "vsphere"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "travelport",
+      "type": "github migration",
+      "startDate": "9/2/2022",
+      "endDate": "12/14/2022",
+      "tech": [
+        "github"
       ]
     }
   ]

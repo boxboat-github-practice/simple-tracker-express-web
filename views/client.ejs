@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <head>
   <script>
-    window.onload = () => {
-      fetch('http://localhost:8080/contracts/<%- id %>')
+    window.onload = async () => {
+      await fetch('http://localhost:8080/contracts/<%- id %>')
           .then(res=>res.json())
           .then(data=>{
             let client = data
@@ -22,15 +22,37 @@
               tech.appendChild(item)
             })
           })
+
+      await fetch('http://localhost:8080/employees')
+            .then(res=>res.json())
+            .then(data=>{
+              console.log(data)
+              let roster = document.getElementById("roster")
+              let engineers = data.filter(e => {
+                return e.history.filter(contract=> contract.id == "<%- id %>").length > 0
+              })
+
+              console.log(engineers)
+
+              engineers.forEach(e => {
+                let item = document.createElement("dd")
+                item.innerText = `- ${e.name}`
+                roster.appendChild(item)
+              })
+            })
     }
   </script>
 </head>
 <body>
+  <a href="http://localhost:8080/">home</a>
   <h1 id="name"></h1>
   Dates: <div id="dates"></div>
   <br>
   Contract Type: <div id="type"></div>
   <dl id="tech">
     <dt>Stack:</dt>
+  </dl>
+  <dl id="roster">
+    <dt>Engineers:</dt>
   </dl>
 </body>
