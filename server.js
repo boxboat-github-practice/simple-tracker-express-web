@@ -7,6 +7,8 @@ const app = express();
 const port = process.env.PORT || 8080;
 const host = process.env.HOST || '0.0.0.0';
 
+function newId() {return Math.floor(Date.now() * Math.random() / 1000)}
+
 app.use(cors())
 app.use(express.json())
 
@@ -49,7 +51,7 @@ app.post('/employees', function(req, res) {
       name: req.body.name,
       active: false,
       github: req.body.github,
-      id: Math.floor(Date.now() * Math.random() / 1000),
+      id: newId(),
       history: []
     }
   
@@ -90,7 +92,7 @@ app.post('/clients', function(req, res) {
     let client = {
       name: req.body.name,
       url: req.body.url,
-      id: Math.floor(Date.now() * Math.random() / 1000),
+      id: newId(),
     }
   
     data.clients.push(client)
@@ -114,7 +116,7 @@ app.put('/clients/:id', function(req, res) {
   res.send(data.clients[i])
 })
 
-app.delete('client/:id', function(req, res) {
+app.delete('clients/:id', function(req, res) {
   let i = data.clients.findIndex(e=>e.id==req.params.id)
   delete data.clients[i]
   res.send('OK')
@@ -131,11 +133,40 @@ app.get('/contracts', function(req, res) {
 })
 
 app.post('/contracts', function(req, res) {
+  if(req.body.clientId) {
+    let contract = {
+      id: newId(),
+      clientId: req.body.clientId,
+      type: req.body.type,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      tech: req.body.tech
+    }
+    data.contracts.push(contract)
+    res.send(contract)
+  } else {
+    res.status(400).send('Missing client id')
+  }
+})
 
+app.put('/contracts/:id', function(req, res) {
+  let i = data.contracts.findIndex(e=>e.id==req.params.id)
+
+  for(key of Object.keys(req.body)) {
+    data.contracts[i][key] = req.body[key] 
+  }
+
+  res.send(data.contracts[i])
 })
 
 app.get('/contracts/:id', function(req, res) {
   res.send(data.contracts.filter(e=>e.id == req.params.id)[0])
+})
+
+app.delete('contracts/:id', function(req, res) {
+  let i = data.contracts.findIndex(e=>e.id==req.params.id)
+  delete data.contracts[i]
+  res.send('OK')
 })
 
 app.listen(port, host);

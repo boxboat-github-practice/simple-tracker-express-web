@@ -28,26 +28,25 @@
       })
       
 
-      fetch('<%- env.url %>/employees')
-      .then(res=>res.json())
-      .then(data=>{
-        let roster = document.getElementById("roster")
-        let engineers = data.filter(e => {
-          return e.history.filter(contract=> contract.id == "<%- id %>").length > 0
-        })
+      let employees = await fetch('<%- env.url %>/employees').then(res=>res.json())
+      
+      let roster = document.getElementById("roster")
+      let engineers = employees.filter(e => {
+        return e.history.filter(contract=> contract.contractId == "<%- id %>").length > 0
+      })
 
-        engineers.forEach(e => {
-          let role = e.history.filter(contract => contract.id == "<%- id %>" )[0].role
+      engineers.forEach(e => {
+        let role = e.history.filter(contract => contract.contractId == "<%- id %>" )[0].role
+        console.log(role)
 
-          let item = document.createElement("dd")
-          let link = document.createElement("a")
-          let linkText = document.createTextNode(`- ${e.name} (${role})`)
+        let item = document.createElement("dd")
+        let link = document.createElement("a")
+        let linkText = document.createTextNode(`- ${e.name} (${role})`)
 
-          link.setAttribute("href", `<%- env.url %>/employeeProfile/${e.id}`)
-          link.appendChild(linkText)
-          item.appendChild(link)
-          roster.appendChild(item)
-        })
+        link.setAttribute("href", `<%- env.url %>/employeeProfile/${e.id}`)
+        link.appendChild(linkText)
+        item.appendChild(link)
+        roster.appendChild(item)
       })
     }
   </script>

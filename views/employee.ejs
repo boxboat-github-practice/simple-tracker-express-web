@@ -18,9 +18,9 @@
         user.history.forEach(e=>{
           let item = document.createElement("dd")
           let link = document.createElement("a")
-          let linkText = document.createTextNode(`- ${e.name}`)
+          let linkText = document.createTextNode(`- ${e.name} `)
 
-          link.setAttribute("href", `<%- env.url %>/clientProfile/${e.id}`)
+          link.setAttribute("href", `<%- env.url %>/contractSummary/${e.contractId}`)
           link.appendChild(linkText)
 
           item.appendChild(link)

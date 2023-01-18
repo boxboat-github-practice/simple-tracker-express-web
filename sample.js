@@ -6,9 +6,9 @@ exports.data = {
       "github": "mbmcmullen27",
       "id": 0,
       "history": [
-        {id: 0, name: "delta", role: "engineer"},
-        {id: 1, name: "securegive", role: "engineer"},
-        {id: 2, name: "cca", role: "engineer"}
+        {contractId: 0, clientId: 0, name: "Delta", role: "engineer"},
+        {contractId: 1, clientId: 1, name: "Securegive", role: "engineer"},
+        {contractId: 2, clientId: 2, name: "Cca", role: "engineer"}
       ]
     },
     {
@@ -17,8 +17,8 @@ exports.data = {
       "github": "dkoch84",
       "id": 1,
       "history": [
-        {id: 0, name: "delta", role: "architect"},
-        {id: 3, name: "travelport", role: "architect"}
+        {contractId: 0, clientId: 0, name: "Delta", role: "architect"},
+        {contractId: 3, clientId: 3, name: "Travelport", role: "architect"}
       ]
     }
   ],
@@ -26,19 +26,19 @@ exports.data = {
   "clients": [
     {
       "id": 0,
-      "name": "delta"
+      "name": "Delta"
     },
     {
       "id": 1,
-      "name": "securegive"
+      "name": "Securegive"
     },
     {
       "id": 2,
-      "name": "cca"
+      "name": "Cca"
     },
     {
       "id": 3,
-      "name": "travelport"
+      "name": "Travelport"
     }, 
   ],
 
