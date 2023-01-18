@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<head>
+  <script>
+    window.onload = async function() {
+      let contract = await fetch('<%- env.url %>/contracts/<%- id %>').then(res=>res.json())
+      let client = await fetch(`<%- env.url %>/clients/${contract.clientId}`).then(res=>res.json())
+
+      let name = document.getElementById("name")
+      let dates = document.getElementById("dates")
+      let type = document.getElementById("type")
+      let tech = document.getElementById("tech")
+
+      let link = document.createElement("a")
+      let linkText = document.createTextNode(`${client.name}`)
+
+      link.setAttribute("href", `<%- env.url %>/clientProfile/${client.id}`)
+      link.appendChild(linkText)
+      name.appendChild(link)
+
+      dates.appendChild(document.createTextNode(`${contract.startDate} - ${contract.endDate}`))
+      type.appendChild(document.createTextNode(`${contract.type}`))
+
+      
+      contract.tech.forEach(e=>{
+        let item = document.createElement("dd")
+        item.innerText = `- ${e}`
+        tech.appendChild(item)
+      })
+      
+
+      fetch('<%- env.url %>/employees')
+      .then(res=>res.json())
+      .then(data=>{
+        let roster = document.getElementById("roster")
+        let engineers = data.filter(e => {
+          return e.history.filter(contract=> contract.id == "<%- id %>").length > 0
+        })
+
+        engineers.forEach(e => {
+          let role = e.history.filter(contract => contract.id == "<%- id %>" )[0].role
+
+          let item = document.createElement("dd")
+          let link = document.createElement("a")
+          let linkText = document.createTextNode(`- ${e.name} (${role})`)
+
+          link.setAttribute("href", `<%- env.url %>/employeeProfile/${e.id}`)
+          link.appendChild(linkText)
+          item.appendChild(link)
+          roster.appendChild(item)
+        })
+      })
+    }
+  </script>
+</head>
+<body>
+  <a href="<%- env.url %>/">Employees</a>
+  <a href="<%- env.url %>/clientList">Clients</a>
+  <a href="<%- env.url %>/contractList">Contracts</a>
+
+  <h1 id="name"></h1>
+  Dates: <div id="dates"></div>
+  <br>
+  Contract Type: <div id="type"></div>
+  <dl id="tech">
+    <dt>Stack:</dt>
+  </dl>
+  <dl id="roster">
+    <dt>Engineers:</dt>
+  </dl>
+</body>

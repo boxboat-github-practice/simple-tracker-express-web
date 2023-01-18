@@ -1,17 +1,14 @@
 const {data} = require("./sample.js");
 const env = require("./local.json")
 const express = require('express');
-const path = require('path');
 const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 8080;
 const host = process.env.HOST || '0.0.0.0';
 
-console.log(data)
-console.log(env)
-
 app.use(cors())
+app.use(express.json())
 
 app.set('view engine', 'ejs');
 
@@ -20,28 +17,124 @@ app.get('/', function(req, res) {
   res.render("index", {env: env});
 });
 
-app.get('/profile/:id', async function(req,res) {
-  res.render("user", {id: req.params.id, env: env})
+app.get('/clientList', function(req, res) {
+  res.render("clientList", {env: env});
+});
+
+app.get('/contractList', function(req, res) {
+  res.render("contractList", {env: env});
+});
+
+app.get('/employeeProfile/:id', function(req, res) {
+  res.render("employee", {id: req.params.id, env: env})
 })
 
-app.get('/client/:id', async function(req,res) {
+app.get('/clientProfile/:id', function(req, res) {
   res.render("client", {id: req.params.id, env: env})
 })
 
-// data
-app.get('/employees', async function(req,res) {
+app.get('/contractSummary/:id', function(req, res) {
+  res.render("contract", {id: req.params.id, env: env})
+})
+
+// employees 
+app.get('/employees', function(req, res) {
   res.send(data.employees)
 })
 
-app.get('/employees/:id', async function(req,res) {
+app.post('/employees', function(req, res) {
+  console.log(req.body)
+  if (req.body.name) {
+    let employee = {
+      name: req.body.name,
+      active: false,
+      github: req.body.github,
+      id: Math.floor(Date.now() * Math.random() / 1000),
+      history: []
+    }
+  
+    data.employees.push(employee)
+    res.send(employee)
+  } else {
+    res.status(400).send('Missing employee name')
+  }
+})
+
+app.get('/employees/:id', function(req, res) {
   res.send(data.employees.filter(e=>e.id == req.params.id)[0])
 })
 
-app.get('/contracts', async function(req, res) {
-  res.send(data.contracts)
+app.put('/employees/:id', function(req, res) {
+  let i = data.employees.findIndex(e=>e.id==req.params.id)
+
+  for(key of Object.keys(req.body)) {
+    data.employees[i][key] = req.body[key] 
+  }
+
+  res.send(data.employees[i])
 })
 
-app.get('/contracts/:id', async function(req,res) {
+app.delete('employees/:id', function(req, res) {
+  let i = data.employees.findIndex(e=>e.id==req.params.id)
+  delete data.employees[i]
+  res.send('OK')
+})
+
+// clients
+app.get('/clients', function(req, res) {
+  res.send(data.clients)
+})
+
+app.post('/clients', function(req, res) {
+  if (req.body.name) {
+    let client = {
+      name: req.body.name,
+      url: req.body.url,
+      id: Math.floor(Date.now() * Math.random() / 1000),
+    }
+  
+    data.clients.push(client)
+    res.send(client)
+  } else {
+    res.status(400).send('Missing client name')
+  }
+})
+
+app.get('/clients/:id', function(req, res) {
+  res.send(data.clients.filter(e=>e.id == req.params.id)[0])
+})
+
+app.put('/clients/:id', function(req, res) {
+  let i = data.clients.findIndex(e=>e.id==req.params.id)
+
+  for(key of Object.keys(req.body)) {
+    data.clients[i][key] = req.body[key] 
+  }
+
+  res.send(data.clients[i])
+})
+
+app.delete('client/:id', function(req, res) {
+  let i = data.clients.findIndex(e=>e.id==req.params.id)
+  delete data.clients[i]
+  res.send('OK')
+})
+
+// contracts 
+app.get('/contracts', function(req, res) {
+  if(req.query.clientId) {
+    let contracts = data.contracts.filter(e=>e.clientId == req.query.clientId)
+    res.send(contracts)
+  } else {
+    res.send(data.contracts)
+  }
+})
+
+app.post('/contracts', function(req, res) {
+
+})
+
+app.get('/contracts/:id', function(req, res) {
   res.send(data.contracts.filter(e=>e.id == req.params.id)[0])
 })
 

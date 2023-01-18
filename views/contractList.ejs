@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<head>
+  <script>
+    window.onload = async function() {
+      let contracts = await fetch('<%- env.url %>/contracts').then(res=>res.json())
+      let clients = await fetch('<%- env.url %>/clients').then(res=>res.json())
+      let list = document.getElementById("list")
+
+      clients.forEach(client => {
+        let clientContracts = contracts.filter(e=>e.clientId==client.id)
+        let contractList = document.createElement("dl")
+        let listHeader = document.createElement("dt")
+        listHeader.appendChild(document.createTextNode(`${client.name}`))
+        contractList.appendChild(listHeader)
+        
+        clientContracts.forEach(e => {
+          let item = document.createElement("dd")
+          let link = document.createElement("a")
+          let linkText = document.createTextNode(`${e.type} : ${e.startDate}`)
+          
+          link.setAttribute("href", `<%- env.url %>/contractSummary/${e.id}`)
+          link.appendChild(linkText)
+          item.appendChild(link)
+          contractList.appendChild(item)
+        })
+        
+        list.appendChild(contractList)
+      })
+    }
+  </script>
+</head>
+<body>
+  <a href="<%- env.url %>/">Employees</a>
+  <a href="<%- env.url %>/clientList">Clients</a>
+
+  <div id="list"></div>
+</body>

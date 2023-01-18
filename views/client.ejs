@@ -1,63 +1,36 @@
 <!DOCTYPE html>
 <head>
   <script>
-    window.onload = async () => {
-      await fetch('<%- env.url %>/contracts/<%- id %>')
-          .then(res=>res.json())
-          .then(data=>{
-            let client = data
-            let name = document.getElementById("name")
-            let dates = document.getElementById("dates")
-            let type = document.getElementById("type")
-            let tech = document.getElementById("tech")
+    window.onload = async function() {
+      let client = await fetch('<%- env.url %>/clients/<%- id %>').then(res=>res.json())
+      let contracts = await fetch('<%- env.url %>/contracts?clientId=<%- id %>').then(res=>res.json())
 
-            name.appendChild(document.createTextNode(`${client.name}`))
-            dates.appendChild(document.createTextNode(`${client.startDate} - ${client.endDate}`))
-            type.appendChild(document.createTextNode(`${client.type}`))
+      let name = document.getElementById("name")
+      let contractList = document.getElementById("contracts")
 
-            
-            client.tech.forEach(e=>{
-              let item = document.createElement("dd")
-              item.innerText = `- ${e}`
-              tech.appendChild(item)
-            })
-          })
+      name.appendChild(document.createTextNode(`${client.name}`))
 
-      await fetch('<%- env.url %>/employees')
-            .then(res=>res.json())
-            .then(data=>{
-              console.log(data)
-              let roster = document.getElementById("roster")
-              let engineers = data.filter(e => {
-                return e.history.filter(contract=> contract.id == "<%- id %>").length > 0
-              })
+      contracts.forEach(e => {
+        let item = document.createElement("dd")
+        let link = document.createElement("a")
+        let linkText = document.createTextNode(`- ${e.type} : ${e.startDate}`)
 
-              console.log(engineers)
-
-              engineers.forEach(e => {
-                let item = document.createElement("dd")
-                let link = document.createElement("a")
-                let linkText = document.createTextNode(`- ${e.name}`)
-
-                link.setAttribute("href", `<%- env.url %>/profile/${e.id}`)
-                link.appendChild(linkText)
-                item.appendChild(link)
-                roster.appendChild(item)
-              })
-            })
+        link.setAttribute("href", `<%- env.url %>/contractSummary/${e.id}`)
+        link.appendChild(linkText)
+        item.appendChild(link)
+        contractList.appendChild(item)
+      })
     }
+    
   </script>
 </head>
 <body>
-  <a href="<%- env.url %>/">home</a>
+  <a href="<%- env.url %>/">Employees</a>
+  <a href="<%- env.url %>/clientList">Clients</a>
+  <a href="<%- env.url %>/contractList">Contracts</a>
+
   <h1 id="name"></h1>
-  Dates: <div id="dates"></div>
-  <br>
-  Contract Type: <div id="type"></div>
-  <dl id="tech">
-    <dt>Stack:</dt>
-  </dl>
-  <dl id="roster">
-    <dt>Engineers:</dt>
+  <dl id="contracts">
+    <dt>contracts:</dt>
   </dl>
 </body>

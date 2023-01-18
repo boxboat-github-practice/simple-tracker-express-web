@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<head>
+  <script>
+    window.onload = async function() {
+      let clients = await fetch('<%- env.url %>/clients').then(res=>res.json())
+      let clientList = document.getElementById("clients")
+
+      clients.forEach(e => {
+        let item = document.createElement("dd")
+        let link = document.createElement("a")
+        let linkText = document.createTextNode(`- ${e.name}`)
+
+        link.setAttribute("href", `<%- env.url %>/clientProfile/${e.id}`)
+        link.appendChild(linkText)
+        item.appendChild(link)
+        clientList.appendChild(item)
+      })  
+    }
+  </script>
+</head>
+<body>
+  <a href="<%- env.url %>/">Employees</a>
+  <a href="<%- env.url %>/contractList">Contracts</a>
+  <dl id="clients">
+    <dt>Clients:</dt>
+  </dl>
+</body>

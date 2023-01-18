@@ -6,16 +6,13 @@
     }
   </style>
   <script>
-    window.onload = async () => {
-      console.log("<%- env.url %>")
+    window.onload = function() {
       fetch('<%- env.url %>/employees')
         .then(res=>res.json())
         .then(data => {
           let employees = data
           var table = document.getElementById("tableBody")
           employees.forEach(e => {
-            console.log (`appending ${e.name}`)
-            console.log(e)
             let row = table.insertRow(-1)
             let name = row.insertCell(0)
             let contract = row.insertCell(1)
@@ -23,7 +20,7 @@
             let nameLink = document.createElement("a")
             let linkText = document.createTextNode(`${e.name}`)
 
-            nameLink.setAttribute("href", `<%- env.url %>/profile/${e.id}`)
+            nameLink.setAttribute("href", `<%- env.url %>/employeeProfile/${e.id}`)
             nameLink.appendChild(linkText)
             name.appendChild(nameLink)
 
@@ -31,7 +28,7 @@
               let contractLink = document.createElement("a")
               let contractLinkText = document.createTextNode(`${e.history[0].name}`)
 
-              contractLink.setAttribute("href", `<%- env.url %>/client/${e.history[0].id}`)
+              contractLink.setAttribute("href", `<%- env.url %>/clientProfile/${e.history[0].id}`)
               contractLink.appendChild(contractLinkText)
               contract.appendChild(contractLink)
             } else {
@@ -43,6 +40,9 @@
   </script>
 </head>
 <body>
+  <a href="<%- env.url %>/clientList">Clients</a>
+  <a href="<%- env.url %>/contractList">Contracts</a>
+  
   <table id="employeeTable">
     <thead>
       <tr>
