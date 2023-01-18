@@ -30,6 +30,7 @@
             if(e.active == true) {
               let contractLink = document.createElement("a")
               let contractLinkText = document.createTextNode(`${e.history[0].name}`)
+
               contractLink.setAttribute("href", `<%- env.url %>/client/${e.history[0].id}`)
               contractLink.appendChild(contractLinkText)
               contract.appendChild(contractLink)

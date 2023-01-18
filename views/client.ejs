@@ -36,7 +36,12 @@
 
               engineers.forEach(e => {
                 let item = document.createElement("dd")
-                item.innerText = `- ${e.name}`
+                let link = document.createElement("a")
+                let linkText = document.createTextNode(`- ${e.name}`)
+
+                link.setAttribute("href", `<%- env.url %>/profile/${e.id}`)
+                link.appendChild(linkText)
+                item.appendChild(link)
                 roster.appendChild(item)
               })
             })
