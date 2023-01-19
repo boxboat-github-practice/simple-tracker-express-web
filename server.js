@@ -24,7 +24,11 @@ app.get('/clientList', function(req, res) {
 });
 
 app.get('/contractList', function(req, res) {
-  res.render("contractList", {env: env});
+  res.render("contractList", {env: env, employeeId: req.query.id});
+});
+
+app.get('/employeeList', function(req, res) {
+  res.render("employeeList", {env: env, contractId: req.query.id});
 });
 
 app.get('/employeeProfile/:id', function(req, res) {

@@ -37,12 +37,34 @@
           })
         })
     }
+
+    function addEmployee() {
+      let name = document.getElementById("employeeName").value
+      let github = document.getElementById("githubName").value
+      let data = {
+        name: name,
+        github: github
+      }
+
+      fetch("<%- env.url %>/employees", { 
+        method: 'POST',  
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })     
+    }
   </script>
 </head>
 <body>
   <a href="<%- env.url %>/clientList">Clients</a>
-  <a href="<%- env.url %>/contractList">Contracts</a>
   
+  <form>
+    <label for="employeeName">Employee Name: </label>
+    <input type="text" id="employeeName" name="employeeName"><br>
+    <label for="githubName">Github Username: </label>
+    <input type="text" id="githubName" name="githubName"><br>
+    <button onclick="addEmployee()">Add New Employee</button>
+  </form> 
+
   <table id="employeeTable">
     <thead>
       <tr>

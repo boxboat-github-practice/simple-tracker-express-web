@@ -9,6 +9,6 @@ Skeleton structure for a work tracking web app in vanilla javascript. Meant to b
 - authentication
 - styling
 - input validation
-- gui elements for modifying data
+- gui elements for modifying/deleting data
 - database
 - tests

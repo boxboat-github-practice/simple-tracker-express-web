@@ -28,15 +28,16 @@
         })
       })
     }
+
   </script>
 </head>
 <body>
   <a href="<%- env.url %>/">Employees</a>
   <a href="<%- env.url %>/clientList">Clients</a>
-  <a href="<%- env.url %>/contractList">Contracts</a>
 
   <h1 id="user"></h1>
-  github: <a id="github"></a>
+  github: <a id="github"></a><br>
+  <button onclick="window.location.href='<%- env.url %>/contractList?id=<%- id %>'">Add Contract</button>
   <br>
   <dl id="history">
     <dt>History:</dt>

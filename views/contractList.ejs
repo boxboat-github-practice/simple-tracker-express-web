@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<head>
+<head> 
   <script>
     window.onload = async function() {
       let contracts = await fetch('<%- env.url %>/contracts').then(res=>res.json())
@@ -18,7 +18,8 @@
           let link = document.createElement("a")
           let linkText = document.createTextNode(`${e.type} : ${e.startDate}`)
           
-          link.setAttribute("href", `<%- env.url %>/contractSummary/${e.id}`)
+          link.setAttribute("onclick", `linkEmployee(${e.id}, ${client.id}, "${client.name}")`)
+          link.setAttribute("href", "<%- env.url %>/employeeProfile/<%- employeeId %>")
           link.appendChild(linkText)
           item.appendChild(link)
           contractList.appendChild(item)
@@ -27,11 +28,30 @@
         list.appendChild(contractList)
       })
     }
+
+    function linkEmployee(contractId, clientId, clientName){
+      fetch("<%- env.url %>/employees/<%- employeeId %>")
+        .then(res=>res.json())
+        .then(employee => {
+          employee.history.push({
+            contractId: contractId,
+            clientId: clientId,
+            name: clientName,
+            role: "engineer"
+          })
+
+          fetch('<%- env.url %>/employees/<%- employeeId %>', { 
+            method: 'PUT',  
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({history: employee.history})
+          })
+        })    
+    }
   </script>
 </head>
 <body>
   <a href="<%- env.url %>/">Employees</a>
   <a href="<%- env.url %>/clientList">Clients</a>
-
+  
   <div id="list"></div>
 </body>

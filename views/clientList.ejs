@@ -16,11 +16,27 @@
         clientList.appendChild(item)
       })  
     }
+
+    function addClient() {
+      let input = document.getElementById("clientName").value
+      fetch("<%- env.url %>/clients", { 
+        method: 'POST',  
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: input })
+      })      
+    }
   </script>
 </head>
 <body>
   <a href="<%- env.url %>/">Employees</a>
-  <a href="<%- env.url %>/contractList">Contracts</a>
+  <div></div>
+
+  <form>
+    <label for="clientName">Client Name: </label>
+    <input type="text" id="clientName" name="clientName"><br>
+    <button onclick="addClient()">Add New Client</button>
+  </form>
+  
   <dl id="clients">
     <dt>Clients:</dt>
   </dl>

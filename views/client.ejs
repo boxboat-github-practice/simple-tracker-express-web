@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
   <script>
-    window.onload = async function() {
+      window.onload = async function() {
       let client = await fetch('<%- env.url %>/clients/<%- id %>').then(res=>res.json())
       let contracts = await fetch('<%- env.url %>/contracts?clientId=<%- id %>').then(res=>res.json())
 
@@ -20,14 +20,46 @@
         item.appendChild(link)
         contractList.appendChild(item)
       })
+    } 
+
+    function addContract() {
+      let type = document.getElementById("contractType").value
+      let start = document.getElementById("startDate").value
+      let end = document.getElementById("endDate").value
+      let tech = document.getElementById("tech").value
+
+      let data = {
+        type: type,
+        clientId: "<%- id %>",
+        startDate: start,
+        endDate: end,
+        tech: tech.split(/\s?,\s?/)
+      }
+
+      fetch("<%- env.url %>/contracts", { 
+        method: 'POST',  
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })      
+      console.log(res)
     }
-    
   </script>
 </head>
 <body>
   <a href="<%- env.url %>/">Employees</a>
   <a href="<%- env.url %>/clientList">Clients</a>
-  <a href="<%- env.url %>/contractList">Contracts</a>
+
+  <form>
+    <label for="contractType">Contract Type: </label>
+    <input type="text" id="contractType" name="contractType"><br>
+    <label for="startDate">Start Date: </label>
+    <input type="text" id="startDate" name="startDate"><br>
+    <label for="endDate">End Date: </label>
+    <input type="text" id="endDate" name="endDate"><br>
+    <label for="tech">Technologies: </label>
+    <input type="text" id="tech" name="tech"><br>
+    <button onclick="addContract()">Add New Contract</button>
+  </form>
 
   <h1 id="name"></h1>
   <dl id="contracts">

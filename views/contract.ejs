@@ -54,8 +54,8 @@
 <body>
   <a href="<%- env.url %>/">Employees</a>
   <a href="<%- env.url %>/clientList">Clients</a>
-  <a href="<%- env.url %>/contractList">Contracts</a>
 
+  
   <h1 id="name"></h1>
   Dates: <div id="dates"></div>
   <br>
@@ -63,6 +63,7 @@
   <dl id="tech">
     <dt>Stack:</dt>
   </dl>
+  <button onclick="window.location.href='<%- env.url %>/employeeList?id=<%- id %>'">Add Employee</button>
   <dl id="roster">
     <dt>Engineers:</dt>
   </dl>
