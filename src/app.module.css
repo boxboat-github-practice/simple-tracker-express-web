@@ -1,0 +1,7 @@
+/* import your colors... */
+@value colors: "./styles/colors.css";
+@value blue, red, green from colors;
+
+.b {
+  background-color: blue;
+}
