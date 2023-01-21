@@ -2,7 +2,7 @@
 <head>
   <script>
     window.onload = async function() {
-      let clients = await fetch('<%- env.url %>/clients').then(res=>res.json())
+      let clients = await fetch('<%- env.apiUrl %>/clients').then(res=>res.json())
       let clientList = document.getElementById("clients")
 
       clients.forEach(e => {
@@ -19,7 +19,7 @@
 
     function addClient() {
       let input = document.getElementById("clientName").value
-      fetch("<%- env.url %>/clients", { 
+      fetch("<%- env.apiUrl %>/clients", { 
         method: 'POST',  
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: input })

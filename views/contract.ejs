@@ -2,8 +2,8 @@
 <head>
   <script>
     window.onload = async function() {
-      let contract = await fetch('<%- env.url %>/contracts/<%- id %>').then(res=>res.json())
-      let client = await fetch(`<%- env.url %>/clients/${contract.clientId}`).then(res=>res.json())
+      let contract = await fetch('<%- env.apiUrl %>/contracts/<%- id %>').then(res=>res.json())
+      let client = await fetch(`<%- env.apiUrl %>/clients/${contract.clientId}`).then(res=>res.json())
 
       let name = document.getElementById("name")
       let dates = document.getElementById("dates")
@@ -28,7 +28,7 @@
       })
       
 
-      let employees = await fetch('<%- env.url %>/employees').then(res=>res.json())
+      let employees = await fetch('<%- env.apiUrl %>/employees').then(res=>res.json())
       
       let roster = document.getElementById("roster")
       let engineers = employees.filter(e => {

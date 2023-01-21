@@ -2,9 +2,9 @@
 <head> 
   <script>
     window.onload = async function() {
-      let employees = await fetch('<%- env.url %>/employees').then(res=>res.json())
-      let contract = await fetch('<%- env.url %>/contracts/<%- contractId %>').then(res=>res.json())
-      let client = await fetch(`<%- env.url %>/clients/${contract.clientId}`).then(res=>res.json())
+      let employees = await fetch('<%- env.apiUrl %>/employees').then(res=>res.json())
+      let contract = await fetch('<%- env.apiUrl %>/contracts/<%- contractId %>').then(res=>res.json())
+      let client = await fetch(`<%- env.apiUrl %>/clients/${contract.clientId}`).then(res=>res.json())
       let list = document.getElementById("list")
 
       employees.forEach((employee) => {
@@ -21,7 +21,7 @@
     }
 
     function linkEmployee(employeeId, clientId, clientName){
-      fetch(`<%- env.url %>/employees/${employeeId}`)
+      fetch(`<%- env.apiUrl %>/employees/${employeeId}`)
         .then(res=>res.json())
         .then(employee => {
           employee.history.push({
@@ -31,7 +31,7 @@
             role: "engineer"
           })
 
-          fetch(`<%- env.url %>/employees/${employee.id}`, { 
+          fetch(`<%- env.apiUrl %>/employees/${employee.id}`, { 
             method: 'PUT',  
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({history: employee.history})

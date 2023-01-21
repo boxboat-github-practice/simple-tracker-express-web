@@ -2,7 +2,7 @@
 <head>
   <script>
     window.onload = () => {
-      fetch('<%- env.url %>/employees/<%- id %>')
+      fetch('<%- env.apiUrl %>/employees/<%- id %>')
       .then(res=>res.json())
       .then(data=>{
         let user = data

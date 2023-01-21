@@ -7,7 +7,7 @@
   </style>
   <script>
     window.onload = function() {
-      fetch('<%- env.url %>/employees')
+      fetch('<%- env.apiUrl %>/employees')
         .then(res=>res.json())
         .then(data => {
           let employees = data
@@ -46,7 +46,7 @@
         github: github
       }
 
-      fetch("<%- env.url %>/employees", { 
+      fetch("<%- env.apiUrl %>/employees", { 
         method: 'POST',  
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
