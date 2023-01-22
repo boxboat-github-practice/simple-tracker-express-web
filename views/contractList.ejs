@@ -30,22 +30,18 @@
     }
 
     function linkEmployee(contractId, clientId, clientName){
-      fetch("<%- env.apiUrl %>/employees/<%- employeeId %>")
-        .then(res=>res.json())
-        .then(employee => {
-          employee.history.push({
-            contractId: contractId,
-            clientId: clientId,
-            name: clientName,
-            role: "engineer"
-          })
+      let history =  {
+        employeeId: "<%- employeeId %>",
+        contractId: contractId,
+        clientId: clientId,
+        role: "engineer"
+      }
 
-          fetch('<%- env.apiUrl %>/employees/<%- employeeId %>', { 
-            method: 'PUT',  
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({history: employee.history})
-          })
-        })    
+      fetch("<%- env.apiUrl %>/history", {
+        method: "PUT",
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(history)
+      })
     }
   </script>
 </head>

@@ -4,23 +4,22 @@ exports.data = {
       "name": "Mike",
       "active": true,
       "github": "mbmcmullen27",
-      "id": 0,
-      "history": [
-        {contractId: 0, clientId: 0, name: "Delta", role: "engineer"},
-        {contractId: 1, clientId: 1, name: "Securegive", role: "engineer"},
-        {contractId: 2, clientId: 2, name: "Cca", role: "engineer"}
-      ]
+      "id": 0
     },
     {
       "name": "Dan",
       "active": false,
       "github": "dkoch84",
-      "id": 1,
-      "history": [
-        {contractId: 0, clientId: 0, name: "Delta", role: "architect"},
-        {contractId: 3, clientId: 3, name: "Travelport", role: "architect"}
-      ]
+      "id": 1
     }
+  ],
+
+  "history": [
+    {employeeId: 0, employeeName: "Mike", contractId: 0, clientId: 0, clientName: "Delta", role: "engineer"},
+    {employeeId: 0, employeeName: "Mike", contractId: 1, clientId: 1, clientName: "Securegive", role: "engineer"},
+    {employeeId: 0, employeeName: "Mike", contractId: 2, clientId: 2, clientName: "Cca", role: "engineer"},
+    {employeeId: 1, employeeName: "Dan", contractId: 0, clientId: 0, clientName: "Delta", role: "architect"},
+    {employeeId: 1, employeeName: "Dan", contractId: 3, clientId: 3, clientName: "Travelport", role: "architect"}
   ],
 
   "clients": [

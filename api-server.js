@@ -142,6 +142,58 @@ app.delete('contracts/:id', function(req, res) {
 })
 
 // history
+app.get('/history', function(req, res) {
+  let history = data.history
+  if(req.query.employeeId) 
+    history = history.filter(e=>e.employeeId == req.query.employeeId)
+  if (req.query.contractId) 
+    history = history.filter(e=>e.contractId == req.query.contractId)
+  if(req.query.clientId)
+    history = history.filter(e=>e.clientId == req.query.clientId)
+
+  res.send(history)
+})
+
+app.post('/history', function(req, res) {
+  if(req.body.clientId) {
+    let client = data.clients.filter(e=>e.id==req.body.clientId)[0]
+    let employee = data.clients.filter(e=>e.id==req.body.employeeId)[0]
+    let history = {
+      id: newId(),
+      clientId: client.id,
+      clientName: client.name,
+      contractId: req.body.contractId,
+      employeeId: employee.id,
+      employeeName: employee.name,
+      role: req.body.role
+    }
+    data.history.push(history)
+    res.send(history)
+  } else {
+    res.status(400).send('Missing client id')
+  }
+})
+
+app.put('/history/:id', function(req, res) {
+  let i = data.history.findIndex(e=>e.id==req.params.id)
+
+  for(key of Object.keys(req.body)) {
+    data.history[i][key] = req.body[key] 
+  }
+
+  res.send(data.history[i])
+})
+
+app.get('/history/:id', function(req, res) {
+  res.send(data.history.filter(e=>e.id == req.params.id)[0])
+})
+
+app.delete('history/:id', function(req, res) {
+  let i = data.history.findIndex(e=>e.id==req.params.id)
+  delete data.history[i]
+  res.send('OK')
+})
+
 
 app.listen(port, host);
 console.log(`Server started at http://${host}:${port}`);
