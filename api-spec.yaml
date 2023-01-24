@@ -1,0 +1,406 @@
+openapi: 3.0.1
+info:
+  title: Simple emlpoyee contract tracker api
+  description: |
+    This API allows management of client contracts and tracks history of employee contract assignments
+  version: 1.0.0
+paths:
+  # Employees
+  /employees:
+    get:
+      summary: Get all employees
+      description: Retrieves all employees
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/employee"
+    post:
+      summary: Create new employee
+      description: Add a new employee with given name and github username
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                github:
+                  type: string
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/employee"
+  /employees/{employeeId}:
+    parameters:
+      - in: path
+        name: employeeId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the employee
+    get:
+      summary: Get an employee by ID
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/employee"
+    put:
+      summary: Update an employee by ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                github:
+                  type: string
+      responses:  
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/employee"
+    delete:
+      summary: Delete an employee by ID
+      responses:  
+        "200":
+          description: "OK"
+  /clients:
+    get:
+      summary: Get all clients
+      description: Retrieves all clients
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/client"
+    post:
+      summary: Create new client
+      description: Add a new client with given name and url
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/client"
+  /clients/{clientId}:
+    parameters:
+      - in: path
+        name: clientId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the client
+    get:
+      summary: Get a client by ID
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/client"
+    put:
+      summary: Update a client by ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+      responses:  
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/client"
+    delete:
+      summary: Delete a client by ID
+      responses:  
+        "200":
+          description: "OK"
+  /contracts:
+    get:
+      summary: Get all contracts
+      description: Retrieves all contracts
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/contract"
+    post:
+      summary: Create new contract
+      description: Add a new contract with fields
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/contractPatch"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/contract"
+  /contracts/{contractId}:
+    parameters:
+      - in: path
+        name: contractId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the contract
+    get:
+      summary: Get a contract by ID
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/contract"
+    put:
+      summary: Update a contract by ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/contractPatch"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/contract"
+    delete:
+      summary: Delete a contract by ID
+      responses:  
+        "200":
+          description: "OK"
+  /history:
+    get:
+      summary: Get all history
+      description: Retrieves all employee contract assignment history
+      parameters:
+        - $ref: "#/components/parameters/employeeId"
+        - $ref: "#/components/parameters/clientId"
+        - $ref: "#/components/parameters/contractId"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/history"
+    post:
+      summary: Create new employee contract assignment
+      description: Add a new contract assignment with fields
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/historyPatch"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/history"
+  /history/{historyId}:
+    parameters:
+      - in: path
+        name: historyId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the employee contract assignment
+    get:
+      summary: Get an employee contract asignment by ID
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/history"
+    put:
+      summary: Update an employee contract assignment by ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/historyPatch"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/contract"
+    delete:
+      summary: Delete an employee contract assignment by ID
+      responses:  
+        "200":
+          description: "OK"
+                
+components:
+  parameters:
+    employeeId:
+      description: numerical employee identifier
+      name: employeeId
+      in: query
+      required: false
+      schema:
+          type: integer
+    clientId:
+      description: numerical client identifier
+      name: clientId
+      in: query
+      required: false
+      schema:
+          type: integer
+    contractId:
+      description: numerical contract identifier
+      name: contractId
+      in: query
+      required: false
+      schema:
+          type: integer
+        
+  schemas:
+    employee:
+      description: Employee data
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        github:
+          type: string
+    client:
+      description: Client data
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        url:
+          type: string
+    contract:
+      description: Contract data
+      type: object
+      properties:
+        id:
+          type: integer
+        clientId:
+          type: integer
+        type:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        tech:
+          type: array
+          items:
+            type: string
+    contractPatch:
+      description: Contract data for update or creation
+      type: object
+      properties:
+        clientId:
+          type: integer
+        type:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        tech:
+          type: array
+          items:
+            type: string
+    history:
+      description: employee contract assignment data
+      type: object
+      properties:
+        id:
+          type: integer
+        clientId:
+          type: integer
+        contractId:
+          type: integer
+        employeeId:
+          type: integer
+        clientName:
+          type: string
+        employeeName:
+          type: string
+        role:
+          type: string
+    historyPatch:
+      description: employee contract assignment data for update or creation
+      type: object
+      properties:
+        clientId:
+          type: integer
+        contractId:
+          type: integer
+        employeeId:
+          type: integer
+        role:
+          type: string
