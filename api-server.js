@@ -21,10 +21,8 @@ app.post('/employees', function(req, res) {
   if (req.body.name) {
     let employee = {
       name: req.body.name,
-      active: false,
       github: req.body.github,
       id: newId(),
-      history: []
     }
   
     data.employees.push(employee)
@@ -155,9 +153,9 @@ app.get('/history', function(req, res) {
 })
 
 app.post('/history', function(req, res) {
-  if(req.body.clientId) {
+  if(req.body.clientId !== undefined) {
     let client = data.clients.filter(e=>e.id==req.body.clientId)[0]
-    let employee = data.clients.filter(e=>e.id==req.body.employeeId)[0]
+    let employee = data.employees.filter(e=>e.id==req.body.employeeId)[0]
     let history = {
       id: newId(),
       clientId: client.id,

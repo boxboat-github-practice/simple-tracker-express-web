@@ -18,7 +18,7 @@
           let link = document.createElement("a")
           let linkText = document.createTextNode(`${e.type} : ${e.startDate}`)
           
-          link.setAttribute("onclick", `linkEmployee(${e.id}, ${client.id}, "${client.name}")`)
+          link.setAttribute("onclick", `linkEmployee(${e.id}, ${client.id})`)
           link.setAttribute("href", "<%- env.url %>/employeeProfile/<%- employeeId %>")
           link.appendChild(linkText)
           item.appendChild(link)
@@ -29,7 +29,7 @@
       })
     }
 
-    function linkEmployee(contractId, clientId, clientName){
+    function linkEmployee(contractId, clientId){
       let history =  {
         employeeId: "<%- employeeId %>",
         contractId: contractId,
@@ -38,7 +38,7 @@
       }
 
       fetch("<%- env.apiUrl %>/history", {
-        method: "PUT",
+        method: "POST",
         headers: { 'Content-Type': 'application/json'},
         body: JSON.stringify(history)
       })

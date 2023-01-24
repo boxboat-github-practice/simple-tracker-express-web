@@ -2,24 +2,22 @@ exports.data = {
   "employees": [
     {
       "name": "Mike",
-      "active": true,
       "github": "mbmcmullen27",
       "id": 0
     },
     {
       "name": "Dan",
-      "active": false,
       "github": "dkoch84",
       "id": 1
     }
   ],
 
   "history": [
-    {employeeId: 0, employeeName: "Mike", contractId: 0, clientId: 0, clientName: "Delta", role: "engineer"},
-    {employeeId: 0, employeeName: "Mike", contractId: 1, clientId: 1, clientName: "Securegive", role: "engineer"},
-    {employeeId: 0, employeeName: "Mike", contractId: 2, clientId: 2, clientName: "Cca", role: "engineer"},
-    {employeeId: 1, employeeName: "Dan", contractId: 0, clientId: 0, clientName: "Delta", role: "architect"},
-    {employeeId: 1, employeeName: "Dan", contractId: 3, clientId: 3, clientName: "Travelport", role: "architect"}
+    {id: 0, employeeId: 0, employeeName: "Mike", contractId: 0, clientId: 0, clientName: "Delta", role: "engineer"},
+    {id: 1, employeeId: 0, employeeName: "Mike", contractId: 1, clientId: 1, clientName: "Securegive", role: "engineer"},
+    {id: 2, employeeId: 0, employeeName: "Mike", contractId: 2, clientId: 2, clientName: "Cca", role: "engineer"},
+    {id: 3, employeeId: 1, employeeName: "Dan", contractId: 0, clientId: 0, clientName: "Delta", role: "architect"},
+    {id: 4, employeeId: 1, employeeName: "Dan", contractId: 3, clientId: 3, clientName: "Travelport", role: "architect"}
   ],
 
   "clients": [

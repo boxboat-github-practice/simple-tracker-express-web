@@ -12,3 +12,4 @@ Skeleton structure for a work tracking web app in vanilla javascript. Meant to b
 - gui elements for modifying/deleting data
 - database
 - tests
+- ci/cd automation

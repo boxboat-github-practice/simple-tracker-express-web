@@ -12,24 +12,24 @@
         let link = document.createElement("a")
         let linkText = document.createTextNode(`${employee.name}`)
         
-        link.setAttribute("onclick", `linkEmployee(${employee.id}, ${client.id}, "${client.name}")`)
-        link.setAttribute("href", `<%- env.url %>/employeeProfile/${employee.id}`)
+        link.setAttribute("onclick", `linkEmployee(${employee.id}, ${client.id})`)
+        link.setAttribute("href", `<%- env.url %>/contractSummary/${client.id}`)
         link.appendChild(linkText)
         item.appendChild(link)
         list.appendChild(item)
       })
     }
 
-    async function linkEmployee(employeeId, clientId, clientName){
+    async function linkEmployee(employeeId, clientId){
       let history = {
         employeeId: employeeId,
-        contractId: "<% contractId %>",
+        contractId: "<%- contractId %>",
         clientId: clientId,
         role: "engineer"
       }
 
       fetch('<%- env.apiUrl %>/history', { 
-        method: 'PUT',  
+        method: 'POST',  
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(history)
       })

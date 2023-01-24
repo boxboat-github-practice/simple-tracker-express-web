@@ -22,7 +22,7 @@
         nameLink.appendChild(linkText)
         name.appendChild(nameLink)
 
-        if(e.active == true) {
+        if(history.length > 0) {
           let contractLink = document.createElement("a")
           let contractLinkText = document.createTextNode(`${history[0].clientName}`)
 
