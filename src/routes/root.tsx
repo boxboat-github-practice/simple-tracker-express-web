@@ -1,5 +1,6 @@
 import Nav from '../components/Nav'
 import ColorPalette from '../components/ColorPalette'
+import { Outlet } from 'react-router-dom'
 
 const Root = () => {
   return (
@@ -11,6 +12,7 @@ const Root = () => {
           <h1 className="text-4xl font-bold text-gray-800 tracking-wide">
             Project Tracker
           </h1>
+          <Outlet />
         </div>
       </main>
     </div>
