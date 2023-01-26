@@ -4,8 +4,8 @@ interface RowProps {
   children: React.ReactNode
 }
 
-const Row = ({ children }: RowProps) => {
-  return <div className="bg-white p-4 rounded-lg shadow">{children}</div>
+const Row = (props: RowProps) => {
+  return <div className="bg-white p-4 rounded-lg shadow">{props.children}</div>
 }
 
 export default Row
