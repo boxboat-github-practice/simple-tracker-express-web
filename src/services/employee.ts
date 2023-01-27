@@ -1,14 +1,7 @@
 export interface Employee {
   name: string
-  active?: boolean
   github?: string
   id: number
-  history: {
-    contractId: number
-    clientId: number
-    name: string
-    role: string
-  }[]
 }
 
 export async function getEmployees() {

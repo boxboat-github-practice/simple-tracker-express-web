@@ -28,15 +28,6 @@ const Employees = () => {
                   <UserIcon className="w-14 h-14" />
                   <div>{employee.name}</div>
                   <div>{employee.github}</div>
-                  <div>Number of Contracts {employee.history.length}</div>
-                  <div>{employee.active}</div>
-                  <div>
-                    {employee.history.map(h => (
-                      <div key={h.contractId}>
-                        {h.name} {h.role} {h.clientId} {h.contractId}
-                      </div>
-                    ))}
-                  </div>
                   <Link
                     to={`${employee.id}`}
                     className="cursor-pointer text-blue-400 font-bold tracking-wide"
