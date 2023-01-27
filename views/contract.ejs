@@ -2,8 +2,8 @@
 <head>
   <script>
     window.onload = async function() {
-      let contract = await fetch('<%- env.url %>/contracts/<%- id %>').then(res=>res.json())
-      let client = await fetch(`<%- env.url %>/clients/${contract.clientId}`).then(res=>res.json())
+      let contract = await fetch('<%- env.apiUrl %>/contracts/<%- id %>').then(res=>res.json())
+      let client = await fetch(`<%- env.apiUrl %>/clients/${contract.clientId}`).then(res=>res.json())
 
       let name = document.getElementById("name")
       let dates = document.getElementById("dates")
@@ -28,22 +28,15 @@
       })
       
 
-      let employees = await fetch('<%- env.url %>/employees').then(res=>res.json())
-      
       let roster = document.getElementById("roster")
-      let engineers = employees.filter(e => {
-        return e.history.filter(contract=> contract.contractId == "<%- id %>").length > 0
-      })
+      let history = await fetch('<%- env.apiUrl %>/history?contractId=<%- id %>').then(res=>res.json())
 
-      engineers.forEach(e => {
-        let role = e.history.filter(contract => contract.contractId == "<%- id %>" )[0].role
-        console.log(role)
-
+      history.forEach(e => {
         let item = document.createElement("dd")
         let link = document.createElement("a")
-        let linkText = document.createTextNode(`- ${e.name} (${role})`)
+        let linkText = document.createTextNode(`- ${e.employeeName} (${e.role})`)
 
-        link.setAttribute("href", `<%- env.url %>/employeeProfile/${e.id}`)
+        link.setAttribute("href", `<%- env.url %>/employeeProfile/${e.employeeId}`)
         link.appendChild(linkText)
         item.appendChild(link)
         roster.appendChild(item)

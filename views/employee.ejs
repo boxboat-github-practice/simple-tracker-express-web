@@ -1,31 +1,28 @@
 <!DOCTYPE html>
 <head>
   <script>
-    window.onload = () => {
-      fetch('<%- env.url %>/employees/<%- id %>')
-      .then(res=>res.json())
-      .then(data=>{
-        let user = data
-        let name = document.getElementById("user")
-        let history = document.getElementById("history")
-        let github = document.getElementById("github")
+    window.onload = async function () {
+      let employee = await fetch('<%- env.apiUrl %>/employees/<%- id %>').then(res=>res.json())
+      let history = await fetch(`<%- env.apiUrl %>/history?employeeId=${employee.id}`).then(res=>res.json())
+      let name = document.getElementById("employee")
+      let contracts = document.getElementById("history")
+      let github = document.getElementById("github")
 
-        name.appendChild(document.createTextNode(`${user.name}`))
+      name.appendChild(document.createTextNode(`${employee.name}`))
 
-        github.setAttribute("href", `https://github.com/${user.github}`)
-        github.appendChild(document.createTextNode(`${user.github}`))
-        
-        user.history.forEach(e=>{
-          let item = document.createElement("dd")
-          let link = document.createElement("a")
-          let linkText = document.createTextNode(`- ${e.name} `)
+      github.setAttribute("href", `https://github.com/${employee.github}`)
+      github.appendChild(document.createTextNode(`${employee.github}`))
+      
+      history.forEach(e=>{
+        let item = document.createElement("dd")
+        let link = document.createElement("a")
+        let linkText = document.createTextNode(`- ${e.clientName} `)
 
-          link.setAttribute("href", `<%- env.url %>/contractSummary/${e.contractId}`)
-          link.appendChild(linkText)
+        link.setAttribute("href", `<%- env.url %>/contractSummary/${e.contractId}`)
+        link.appendChild(linkText)
 
-          item.appendChild(link)
-          history.appendChild(item)
-        })
+        item.appendChild(link)
+        contracts.appendChild(item)
       })
     }
 
@@ -35,7 +32,7 @@
   <a href="<%- env.url %>/">Employees</a>
   <a href="<%- env.url %>/clientList">Clients</a>
 
-  <h1 id="user"></h1>
+  <h1 id="employee"></h1>
   github: <a id="github"></a><br>
   <button onclick="window.location.href='<%- env.url %>/contractList?id=<%- id %>'">Add Contract</button>
   <br>

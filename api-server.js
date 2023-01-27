@@ -1,47 +1,15 @@
 const {data} = require("./sample.js");
-const env = require("./local.json")
 const express = require('express');
 const cors = require('cors');
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8081;
 const host = process.env.HOST || '0.0.0.0';
-
-function newId() {return Math.floor(Date.now() * Math.random() / 1000)}
 
 app.use(cors())
 app.use(express.json())
 
-app.set('view engine', 'ejs');
-
-// views
-app.get('/', function(req, res) {
-  res.render("index", {env: env});
-});
-
-app.get('/clientList', function(req, res) {
-  res.render("clientList", {env: env});
-});
-
-app.get('/contractList', function(req, res) {
-  res.render("contractList", {env: env, employeeId: req.query.id});
-});
-
-app.get('/employeeList', function(req, res) {
-  res.render("employeeList", {env: env, contractId: req.query.id});
-});
-
-app.get('/employeeProfile/:id', function(req, res) {
-  res.render("employee", {id: req.params.id, env: env})
-})
-
-app.get('/clientProfile/:id', function(req, res) {
-  res.render("client", {id: req.params.id, env: env})
-})
-
-app.get('/contractSummary/:id', function(req, res) {
-  res.render("contract", {id: req.params.id, env: env})
-})
+function newId() {return Math.floor(Date.now() * Math.random() / 1000)}
 
 // employees 
 app.get('/employees', function(req, res) {
@@ -53,10 +21,8 @@ app.post('/employees', function(req, res) {
   if (req.body.name) {
     let employee = {
       name: req.body.name,
-      active: false,
       github: req.body.github,
       id: newId(),
-      history: []
     }
   
     data.employees.push(employee)
@@ -172,6 +138,60 @@ app.delete('contracts/:id', function(req, res) {
   delete data.contracts[i]
   res.send('OK')
 })
+
+// history
+app.get('/history', function(req, res) {
+  let history = data.history
+  if(req.query.employeeId) 
+    history = history.filter(e=>e.employeeId == req.query.employeeId)
+  if (req.query.contractId) 
+    history = history.filter(e=>e.contractId == req.query.contractId)
+  if(req.query.clientId)
+    history = history.filter(e=>e.clientId == req.query.clientId)
+
+  res.send(history)
+})
+
+app.post('/history', function(req, res) {
+  if(req.body.clientId !== undefined) {
+    let client = data.clients.filter(e=>e.id==req.body.clientId)[0]
+    let employee = data.employees.filter(e=>e.id==req.body.employeeId)[0]
+    let history = {
+      id: newId(),
+      clientId: client.id,
+      clientName: client.name,
+      contractId: req.body.contractId,
+      employeeId: employee.id,
+      employeeName: employee.name,
+      role: req.body.role
+    }
+    data.history.push(history)
+    res.send(history)
+  } else {
+    res.status(400).send('Missing client id')
+  }
+})
+
+app.put('/history/:id', function(req, res) {
+  let i = data.history.findIndex(e=>e.id==req.params.id)
+
+  for(key of Object.keys(req.body)) {
+    data.history[i][key] = req.body[key] 
+  }
+
+  res.send(data.history[i])
+})
+
+app.get('/history/:id', function(req, res) {
+  res.send(data.history.filter(e=>e.id == req.params.id)[0])
+})
+
+app.delete('history/:id', function(req, res) {
+  let i = data.history.findIndex(e=>e.id==req.params.id)
+  delete data.history[i]
+  res.send('OK')
+})
+
 
 app.listen(port, host);
 console.log(`Server started at http://${host}:${port}`);

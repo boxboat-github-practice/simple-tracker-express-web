@@ -2,8 +2,8 @@
 <head> 
   <script>
     window.onload = async function() {
-      let contracts = await fetch('<%- env.url %>/contracts').then(res=>res.json())
-      let clients = await fetch('<%- env.url %>/clients').then(res=>res.json())
+      let contracts = await fetch('<%- env.apiUrl %>/contracts').then(res=>res.json())
+      let clients = await fetch('<%- env.apiUrl %>/clients').then(res=>res.json())
       let list = document.getElementById("list")
 
       clients.forEach(client => {
@@ -18,7 +18,7 @@
           let link = document.createElement("a")
           let linkText = document.createTextNode(`${e.type} : ${e.startDate}`)
           
-          link.setAttribute("onclick", `linkEmployee(${e.id}, ${client.id}, "${client.name}")`)
+          link.setAttribute("onclick", `linkEmployee(${e.id}, ${client.id})`)
           link.setAttribute("href", "<%- env.url %>/employeeProfile/<%- employeeId %>")
           link.appendChild(linkText)
           item.appendChild(link)
@@ -29,23 +29,19 @@
       })
     }
 
-    function linkEmployee(contractId, clientId, clientName){
-      fetch("<%- env.url %>/employees/<%- employeeId %>")
-        .then(res=>res.json())
-        .then(employee => {
-          employee.history.push({
-            contractId: contractId,
-            clientId: clientId,
-            name: clientName,
-            role: "engineer"
-          })
+    function linkEmployee(contractId, clientId){
+      let history =  {
+        employeeId: "<%- employeeId %>",
+        contractId: contractId,
+        clientId: clientId,
+        role: "engineer"
+      }
 
-          fetch('<%- env.url %>/employees/<%- employeeId %>', { 
-            method: 'PUT',  
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({history: employee.history})
-          })
-        })    
+      fetch("<%- env.apiUrl %>/history", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(history)
+      })
     }
   </script>
 </head>

@@ -2,8 +2,8 @@
 <head>
   <script>
       window.onload = async function() {
-      let client = await fetch('<%- env.url %>/clients/<%- id %>').then(res=>res.json())
-      let contracts = await fetch('<%- env.url %>/contracts?clientId=<%- id %>').then(res=>res.json())
+      let client = await fetch('<%- env.apiUrl %>/clients/<%- id %>').then(res=>res.json())
+      let contracts = await fetch('<%- env.apiUrl %>/contracts?clientId=<%- id %>').then(res=>res.json())
 
       let name = document.getElementById("name")
       let contractList = document.getElementById("contracts")

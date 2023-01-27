@@ -6,36 +6,33 @@
     }
   </style>
   <script>
-    window.onload = function() {
-      fetch('<%- env.url %>/employees')
-        .then(res=>res.json())
-        .then(data => {
-          let employees = data
-          var table = document.getElementById("tableBody")
-          employees.forEach(e => {
-            let row = table.insertRow(-1)
-            let name = row.insertCell(0)
-            let contract = row.insertCell(1)
+    window.onload = async function() {
+      let employees = await fetch('<%- env.apiUrl %>/employees').then(res=>res.json())
+      var table = document.getElementById("tableBody")
+      for(e of employees) {
+        let history = await fetch(`<%- env.apiUrl %>/history?employeeId=${e.id}`).then(res=>res.json())
+        let row = table.insertRow(-1)
+        let name = row.insertCell(0)
+        let contract = row.insertCell(1)
 
-            let nameLink = document.createElement("a")
-            let linkText = document.createTextNode(`${e.name}`)
+        let nameLink = document.createElement("a")
+        let linkText = document.createTextNode(`${e.name}`)
 
-            nameLink.setAttribute("href", `<%- env.url %>/employeeProfile/${e.id}`)
-            nameLink.appendChild(linkText)
-            name.appendChild(nameLink)
+        nameLink.setAttribute("href", `<%- env.url %>/employeeProfile/${e.id}`)
+        nameLink.appendChild(linkText)
+        name.appendChild(nameLink)
 
-            if(e.active == true) {
-              let contractLink = document.createElement("a")
-              let contractLinkText = document.createTextNode(`${e.history[0].name}`)
+        if(history.length > 0) {
+          let contractLink = document.createElement("a")
+          let contractLinkText = document.createTextNode(`${history[0].clientName}`)
 
-              contractLink.setAttribute("href", `<%- env.url %>/contractSummary/${e.history[0].contractId}`)
-              contractLink.appendChild(contractLinkText)
-              contract.appendChild(contractLink)
-            } else {
-              contract.innerHTML = "none" 
-            }
-          })
-        })
+          contractLink.setAttribute("href", `<%- env.url %>/contractSummary/${history[0].contractId}`)
+          contractLink.appendChild(contractLinkText)
+          contract.appendChild(contractLink)
+        } else {
+          contract.innerHTML = "none" 
+        }
+      }
     }
 
     function addEmployee() {
@@ -46,7 +43,7 @@
         github: github
       }
 
-      fetch("<%- env.url %>/employees", { 
+      fetch("<%- env.apiUrl %>/employees", { 
         method: 'POST',  
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
