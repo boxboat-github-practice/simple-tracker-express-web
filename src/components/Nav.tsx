@@ -1,5 +1,5 @@
 import logo from '../assets/bb-logo.png'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { ReactComponent as ClientIcon } from '../assets/heroIcons/briefcase.svg'
 import { ReactComponent as EmployeeIcon } from '../assets/heroIcons/user.svg'
 import { ReactComponent as ContractIcon } from '../assets/heroIcons/paper-clip.svg'
@@ -29,32 +29,44 @@ const Nav = () => {
           </div>
         </div>
         <ul className="text-sm lg:mt-6" id="menu">
-          <li className="text-gray-700 font-bold py-1">
-            <Link
+          <li>
+            <NavLink
               to="/employees"
-              className="px-4 flex justify-end border-r-4 border-teal"
+              className={({ isActive }) =>
+                isActive
+                  ? 'px-4 flex justify-end border-r-4 border-teal text-gray-700 font-bold py-1'
+                  : 'px-4 flex justify-end border-r-4 border-gray-100 py-1 opacity-50'
+              }
             >
               <span>Employees</span>
               <EmployeeIcon className="w-5 ml-2" />
-            </Link>
+            </NavLink>
           </li>
-          <li className="py-1 opacity-50">
-            <Link
+          <li>
+            <NavLink
               to="/clients"
-              className="px-4 flex justify-end border-r-4 border-gray-100"
+              className={({ isActive }) =>
+                isActive
+                  ? 'px-4 flex justify-end border-r-4 border-teal text-gray-700 font-bold py-1'
+                  : 'px-4 flex justify-end border-r-4 border-gray-100 py-1 opacity-50'
+              }
             >
               <span>Clients</span>
               <ClientIcon className="w-5 ml-2" />
-            </Link>
+            </NavLink>
           </li>
-          <li className="py-1 opacity-50">
-            <Link
+          <li>
+            <NavLink
               to="/contracts"
-              className="px-4 flex justify-end border-r-4 border-gray-100"
+              className={({ isActive }) =>
+                isActive
+                  ? 'px-4 flex justify-end border-r-4 border-teal text-gray-700 font-bold py-1'
+                  : 'px-4 flex justify-end border-r-4 border-gray-100 py-1 opacity-50'
+              }
             >
               <span>Contracts</span>
               <ContractIcon className="w-5 ml-2" />
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </nav>

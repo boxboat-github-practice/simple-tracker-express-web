@@ -1,17 +1,17 @@
-import { Form, useLoaderData } from 'react-router-dom'
+import { Form, useLoaderData, redirect } from 'react-router-dom'
 import Table from '../components/Table'
 import Row from '../components/Row'
 import { ReactComponent as UserIcon } from '../assets/heroIcons/user-circle.svg'
 import { createEmployee, getEmployees, Employee } from '../services/employee'
 import { Link, Outlet } from 'react-router-dom'
 
-export async function loader() {
+export const loader = async () => {
   return await getEmployees()
 }
 
-export async function action() {
-  const employee = await createEmployee()
-  return { employee }
+export const action = async () => {
+  const employee = (await createEmployee()) as Employee
+  return redirect(`/employees/${employee.id}/edit`)
 }
 
 const Employees = () => {

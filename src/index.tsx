@@ -5,12 +5,17 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './routes/Root'
 import ErrorPage from './error-page'
 import Employees, {
-  loader as employeeLoader,
+  loader as employeeListLoader,
   action as employeeAction,
 } from './routes/Employees'
 import EmployeeDetail, {
-  loader as employeeDetailLoader,
+  loader as employeeLoader,
 } from './routes/EmployeeDetail'
+import EmployeeEdit, {
+  action as employeeEditAction,
+} from './routes/EmployeeEdit'
+import { action as employeeDeleteAction } from './routes/EmployeeDestroy'
+import Clients from './routes/Clients'
 
 const router = createBrowserRouter([
   {
@@ -19,15 +24,34 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: 'employees',
-        element: <Employees />,
-        loader: employeeLoader,
-        action: employeeAction,
+        errorElement: <ErrorPage />,
         children: [
           {
-            path: ':employeeId',
-            element: <EmployeeDetail />,
-            loader: employeeDetailLoader,
+            path: 'employees',
+            element: <Employees />,
+            loader: employeeListLoader,
+            action: employeeAction,
+            children: [
+              {
+                path: ':employeeId',
+                element: <EmployeeDetail />,
+                loader: employeeLoader,
+              },
+              {
+                path: ':employeeId/edit',
+                element: <EmployeeEdit />,
+                loader: employeeLoader,
+                action: employeeEditAction,
+              },
+              {
+                path: ':employeeId/destroy',
+                action: employeeDeleteAction,
+              },
+            ],
+          },
+          {
+            path: 'clients',
+            element: <Clients />,
           },
         ],
       },

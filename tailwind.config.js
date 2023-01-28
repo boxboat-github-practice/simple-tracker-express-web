@@ -16,6 +16,7 @@ module.exports = {
       teal: '#4ed8d0',
       gray: colors.gray,
       slate: colors.slate,
+      red: colors.red,
     },
     extend: {
       colors: {},
