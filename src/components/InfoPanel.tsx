@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { ReactComponent as CloseIcon } from '../assets/heroIcons/x-mark.svg'
 
 interface InfoPanelProps {
+  title: string
   children: React.ReactNode
 }
 const InfoPanel = (props: InfoPanelProps) => {
@@ -17,6 +18,7 @@ const InfoPanel = (props: InfoPanelProps) => {
             <CloseIcon className="w-6 h-6" />
           </Link>
         </div>
+        <h1 className="mt-3 font-bold text-xl">{props.title}</h1>
         {props.children}
       </div>
     </>

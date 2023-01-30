@@ -3,7 +3,7 @@ import Table from '../components/Table'
 import Row from '../components/Row'
 import { ReactComponent as UserIcon } from '../assets/heroIcons/user-circle.svg'
 import { createEmployee, getEmployees, Employee } from '../services/employee'
-import { Link, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 export const loader = async () => {
   return await getEmployees()
@@ -23,25 +23,38 @@ const Employees = () => {
         <>
           {employees.map(employee => {
             return (
-              <Row key={employee.id}>
-                <div className="flex items-center space-x-2 text-sm text-gray-900">
+              <Row key={employee.id} objectId={employee.id}>
+                <div className="flex flex-row items-center">
                   <UserIcon className="w-14 h-14" />
-                  <div>{employee.name}</div>
-                  <div>{employee.github}</div>
-                  <Link
-                    to={`${employee.id}`}
-                    className="cursor-pointer text-blue-400 font-bold tracking-wide"
-                  >
-                    See Details &gt;&gt;&gt;
-                  </Link>
+                  <div className="ml-2">
+                    <p className="text-xl tracking-wide text-gray-900">
+                      {employee.name}
+                    </p>
+                    <p className="text-sm text-gray-700">
+                      Github:&nbsp;
+                      <a
+                        href={`https://github.com/${employee.github}`}
+                        className="text-blue-300 underline"
+                      >
+                        {employee.github}
+                      </a>
+                    </p>
+                  </div>
                 </div>
               </Row>
             )
           })}
         </>
-        <Form method="post">
-          <button type="submit">New</button>
-        </Form>
+        <div className="text-center">
+          <Form method="post">
+            <button
+              type="submit"
+              className="rounded-full bg-blue-400 text-gray-100 text-lg px-6 py-1 my-3"
+            >
+              New +
+            </button>
+          </Form>
+        </div>
       </Table>
       <Outlet />
     </>

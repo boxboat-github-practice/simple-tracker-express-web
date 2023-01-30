@@ -18,7 +18,7 @@ export const getEmployee = async (id: number) => {
 
 export const createEmployee = async (
   name: string = 'Batman',
-  githubUsername: string = 'JokerAdmirer'
+  githubUsername: string = 'batman'
 ) => {
   const payload = { name: name, github: githubUsername }
   const response = await fetch('http://localhost:8081/employees', {
