@@ -4,18 +4,36 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './routes/Root'
 import ErrorPage from './error-page'
+
 import Employees, {
   loader as employeeListLoader,
-  action as employeeAction,
+  action as employeeCreateAction,
 } from './routes/Employees'
 import EmployeeDetail, {
   loader as employeeLoader,
-} from './routes/EmployeeDetail'
-import EmployeeEdit, {
   action as employeeEditAction,
-} from './routes/EmployeeEdit'
+} from './routes/EmployeeDetail'
 import { action as employeeDeleteAction } from './routes/EmployeeDestroy'
-import Clients from './routes/Clients'
+
+import Clients, {
+  loader as clientListLoader,
+  action as clientCreateAction,
+} from './routes/Clients'
+import ClientDetail, {
+  loader as clientLoader,
+  action as clientEditAction,
+} from './routes/ClientDetail'
+import { action as clientDeleteAction } from './routes/ClientDestroy'
+
+import Contracts, {
+  loader as contractListLoader,
+  action as contractCreateAction,
+} from './routes/Contracts'
+import ContractDetail, {
+  loader as contractLoader,
+  action as contractEditAction,
+} from './routes/ContractDetail'
+import { action as contractDeleteAction } from './routes/ContractDestroy'
 
 const router = createBrowserRouter([
   {
@@ -30,7 +48,7 @@ const router = createBrowserRouter([
             path: 'employees',
             element: <Employees />,
             loader: employeeListLoader,
-            action: employeeAction,
+            action: employeeCreateAction,
             children: [
               {
                 path: ':employeeId',
@@ -39,7 +57,7 @@ const router = createBrowserRouter([
               },
               {
                 path: ':employeeId/edit',
-                element: <EmployeeEdit />,
+                element: <EmployeeDetail editable={true} />,
                 loader: employeeLoader,
                 action: employeeEditAction,
               },
@@ -52,6 +70,48 @@ const router = createBrowserRouter([
           {
             path: 'clients',
             element: <Clients />,
+            loader: clientListLoader,
+            action: clientCreateAction,
+            children: [
+              {
+                path: ':clientId',
+                element: <ClientDetail />,
+                loader: clientLoader,
+              },
+              {
+                path: ':clientId/edit',
+                element: <ClientDetail editable={true} />,
+                loader: clientLoader,
+                action: clientEditAction,
+              },
+              {
+                path: ':clientId/destroy',
+                action: clientDeleteAction,
+              },
+            ],
+          },
+          {
+            path: 'contracts',
+            element: <Contracts />,
+            loader: contractListLoader,
+            action: contractCreateAction,
+            children: [
+              {
+                path: ':contractId',
+                element: <ContractDetail />,
+                loader: contractLoader,
+              },
+              {
+                path: ':contractId/edit',
+                element: <ContractDetail editable={true} />,
+                loader: contractLoader,
+                action: contractEditAction,
+              },
+              {
+                path: ':contractId/destroy',
+                action: contractDeleteAction,
+              },
+            ],
           },
         ],
       },

@@ -18,7 +18,7 @@ const InfoPanel = (props: InfoPanelProps) => {
             <CloseIcon className="w-6 h-6" />
           </Link>
         </div>
-        <h1 className="mt-3 font-bold text-xl">{props.title}</h1>
+        <h2 className="mt-3 font-bold text-xl">{props.title}</h2>
         {props.children}
       </div>
     </>
