@@ -1,4 +1,4 @@
-import { redirect, useLoaderData, useNavigate } from 'react-router-dom'
+import { Form, redirect, useLoaderData, useNavigate } from 'react-router-dom'
 import { Contract, getContract, updateContract } from '../services/contract'
 import InfoPanel from '../components/InfoPanel'
 import SaveCancelBtnGroup from '../components/SaveCancelBtnGroup'
@@ -27,35 +27,34 @@ const ContractDetail = (props: ContractDetailProps) => {
   return (
     <InfoPanel title="Contract">
       <div className="p-2">
-        <div className="my-2">
-          <label htmlFor="id">ID:</label>
-          <input
-            type="text"
-            name="id"
-            defaultValue={contract.id}
-            className={`${
-              props.editable ? classesWhenEditable : ''
-            } mx-2 px-2 py-2 text-sm disabled:bg-slate-100 disabled:text-slate-500 disabled:border-slate-300 disabled:shadow-none`}
-            disabled
-          />
-        </div>
-        <div className="my-2">
-          <label htmlFor="id">Name:</label>
-          <input
-            type="text"
-            name="name"
-            defaultValue={contract.clientId}
-            className={`${
-              props.editable ? classesWhenEditable : ''
-            } mx-2 px-2 py-2 text-sm disabled:bg-slate-100 disabled:text-slate-500 disabled:border-slate-300 disabled:shadow-none`}
-            disabled={!props.editable}
-          />
-        </div>
-        {props.editable ? (
-          <SaveCancelBtnGroup navigate={navigate} />
-        ) : (
-          <EditDeleteBtnGroup />
-        )}
+        <Form method="post" id="client-edit-form">
+          <div className="my-2">
+            <label htmlFor="id">ID:</label>
+            <input
+              type="text"
+              name="id"
+              defaultValue={contract.id}
+              className={`${
+                props.editable ? classesWhenEditable : ''
+              } mx-2 px-2 py-2 text-sm disabled:bg-slate-100 disabled:text-slate-500 disabled:border-slate-300 disabled:shadow-none`}
+              disabled
+            />
+          </div>
+          <div className="my-2">
+            <label htmlFor="id">Name:</label>
+            <input
+              type="text"
+              name="name"
+              defaultValue={contract.clientId}
+              className={`${
+                props.editable ? classesWhenEditable : ''
+              } mx-2 px-2 py-2 text-sm disabled:bg-slate-100 disabled:text-slate-500 disabled:border-slate-300 disabled:shadow-none`}
+              disabled={!props.editable}
+            />
+            {props.editable && <SaveCancelBtnGroup navigate={navigate} />}
+          </div>
+        </Form>
+        {!props.editable && <EditDeleteBtnGroup />}
       </div>
     </InfoPanel>
   )
