@@ -95,6 +95,7 @@ const router = createBrowserRouter([
             element: <Contracts />,
             loader: contractListLoader,
             action: contractCreateAction,
+            id: 'contracts',
             children: [
               {
                 path: ':contractId',

@@ -8,11 +8,13 @@ export interface History {
   role: string
 }
 
-export const getHistoryList = async (query: {
-  employeeId?: number
-  contractId?: number
-  clientId?: number
-}) => {
+export const getHistoryList = async (
+  query: {
+    employeeId?: number
+    contractId?: number
+    clientId?: number
+  } = {}
+) => {
   let queryString = ''
   if (query.employeeId) {
     queryString += `employeeId=${query.employeeId}&`
@@ -23,7 +25,6 @@ export const getHistoryList = async (query: {
   if (query.clientId) {
     queryString += `clientId=${query.clientId}&`
   }
-  console.log(queryString)
   const response = await fetch(
     `http://localhost:8081/history${queryString ? '?' + queryString : ''}`
   )

@@ -14,11 +14,11 @@ function newId() {
 }
 
 // employees
-app.get('/employees', function(req, res) {
+app.get('/employees', function (req, res) {
   res.send(data.employees)
 })
 
-app.post('/employees', function(req, res) {
+app.post('/employees', function (req, res) {
   if (req.body.name) {
     let employee = {
       name: req.body.name,
@@ -33,11 +33,11 @@ app.post('/employees', function(req, res) {
   }
 })
 
-app.get('/employees/:id', function(req, res) {
+app.get('/employees/:id', function (req, res) {
   res.send(data.employees.filter(e => e.id == req.params.id)[0])
 })
 
-app.put('/employees/:id', function(req, res) {
+app.put('/employees/:id', function (req, res) {
   let i = data.employees.findIndex(e => e.id == req.params.id)
 
   for (key of Object.keys(req.body)) {
@@ -47,7 +47,7 @@ app.put('/employees/:id', function(req, res) {
   res.send(data.employees[i])
 })
 
-app.delete('/employees/:id', function(req, res) {
+app.delete('/employees/:id', function (req, res) {
   console.log('deleting employees')
   let i = data.employees.findIndex(e => e.id == req.params.id)
   data.employees.splice(i, 1)
@@ -56,11 +56,11 @@ app.delete('/employees/:id', function(req, res) {
 })
 
 // clients
-app.get('/clients', function(req, res) {
+app.get('/clients', function (req, res) {
   res.send(data.clients)
 })
 
-app.post('/clients', function(req, res) {
+app.post('/clients', function (req, res) {
   if (req.body.name) {
     let client = {
       name: req.body.name,
@@ -75,11 +75,11 @@ app.post('/clients', function(req, res) {
   }
 })
 
-app.get('/clients/:id', function(req, res) {
+app.get('/clients/:id', function (req, res) {
   res.send(data.clients.filter(e => e.id == req.params.id)[0])
 })
 
-app.put('/clients/:id', function(req, res) {
+app.put('/clients/:id', function (req, res) {
   let i = data.clients.findIndex(e => e.id == req.params.id)
 
   for (key of Object.keys(req.body)) {
@@ -89,14 +89,14 @@ app.put('/clients/:id', function(req, res) {
   res.send(data.clients[i])
 })
 
-app.delete('/clients/:id', function(req, res) {
+app.delete('/clients/:id', function (req, res) {
   let i = data.clients.findIndex(e => e.id == req.params.id)
   data.clients.splice(i, 1)
   res.send('OK')
 })
 
 // contracts
-app.get('/contracts', function(req, res) {
+app.get('/contracts', function (req, res) {
   if (req.query.clientId) {
     let contracts = data.contracts.filter(e => e.clientId == req.query.clientId)
     res.send(contracts)
@@ -105,7 +105,7 @@ app.get('/contracts', function(req, res) {
   }
 })
 
-app.post('/contracts', function(req, res) {
+app.post('/contracts', function (req, res) {
   if (req.body.clientId) {
     let contract = {
       id: newId(),
@@ -122,7 +122,7 @@ app.post('/contracts', function(req, res) {
   }
 })
 
-app.put('/contracts/:id', function(req, res) {
+app.put('/contracts/:id', function (req, res) {
   let i = data.contracts.findIndex(e => e.id == req.params.id)
 
   for (key of Object.keys(req.body)) {
@@ -132,18 +132,18 @@ app.put('/contracts/:id', function(req, res) {
   res.send(data.contracts[i])
 })
 
-app.get('/contracts/:id', function(req, res) {
+app.get('/contracts/:id', function (req, res) {
   res.send(data.contracts.filter(e => e.id == req.params.id)[0])
 })
 
-app.delete('/contracts/:id', function(req, res) {
+app.delete('/contracts/:id', function (req, res) {
   let i = data.contracts.findIndex(e => e.id == req.params.id)
   data.contracts.splice(i, 1)
   res.send('OK')
 })
 
 // history
-app.get('/history', function(req, res) {
+app.get('/history', function (req, res) {
   let history = data.history
   if (req.query.employeeId)
     history = history.filter(e => e.employeeId == req.query.employeeId)
@@ -155,7 +155,7 @@ app.get('/history', function(req, res) {
   res.send(history)
 })
 
-app.post('/history', function(req, res) {
+app.post('/history', function (req, res) {
   if (req.body.clientId !== undefined) {
     let client = data.clients.filter(e => e.id == req.body.clientId)[0]
     let employee = data.employees.filter(e => e.id == req.body.employeeId)[0]
@@ -175,7 +175,7 @@ app.post('/history', function(req, res) {
   }
 })
 
-app.put('/history/:id', function(req, res) {
+app.put('/history/:id', function (req, res) {
   let i = data.history.findIndex(e => e.id == req.params.id)
 
   for (key of Object.keys(req.body)) {
@@ -185,11 +185,13 @@ app.put('/history/:id', function(req, res) {
   res.send(data.history[i])
 })
 
-app.get('/history/:id', function(req, res) {
+app.get('/history/:id', function (req, res) {
+  console.log('/history/:id')
+  console.log(data.history)
   res.send(data.history.filter(e => e.id == req.params.id)[0])
 })
 
-app.delete('/history/:id', function(req, res) {
+app.delete('/history/:id', function (req, res) {
   let i = data.history.findIndex(e => e.id == req.params.id)
   data.history.splice(i, 1)
   res.send('OK')

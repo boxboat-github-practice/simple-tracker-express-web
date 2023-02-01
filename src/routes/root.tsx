@@ -1,5 +1,4 @@
 import Nav from '../components/Nav'
-import ColorPalette from '../components/ColorPalette'
 import { Outlet, useNavigation } from 'react-router-dom'
 
 const Root = () => {
@@ -13,11 +12,7 @@ const Root = () => {
           ${navigation.state === 'loading' ? 'loading' : ''}`}
         id="main"
       >
-        <ColorPalette />
         <div className="py-4">
-          <h1 className="text-4xl font-bold text-gray-800 tracking-wide">
-            Project Tracker
-          </h1>
           <Outlet />
         </div>
       </main>

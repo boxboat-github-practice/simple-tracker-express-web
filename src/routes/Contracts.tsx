@@ -4,9 +4,17 @@ import Row from '../components/Row'
 import { ReactComponent as ContractIcon } from '../assets/heroIcons/paper-clip.svg'
 import { createContract, getContracts, Contract } from '../services/contract'
 import { Outlet } from 'react-router-dom'
+import { getClients } from '../services/client'
 
 export const loader = async () => {
-  return await getContracts()
+  const contracts = await getContracts()
+  const clients = await getClients()
+  const merged = contracts.map(contract => ({
+    ...contract,
+    clientName: clients.find(client => client.id === contract.clientId)?.name,
+  }))
+
+  return merged
 }
 
 export const action = async () => {
@@ -15,7 +23,7 @@ export const action = async () => {
 }
 
 const Contracts = () => {
-  const contracts = useLoaderData() as Contract[]
+  const contracts = useLoaderData() as any[]
 
   return (
     <>
@@ -28,7 +36,7 @@ const Contracts = () => {
                   <ContractIcon className="w-14 h-14" />
                   <div className="ml-2">
                     <p className="text-xl tracking-wide text-gray-900">
-                      {contract.clientId}: {contract.type}
+                      {contract.clientName}: {contract.type}
                     </p>
                   </div>
                 </div>

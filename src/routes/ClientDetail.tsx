@@ -1,11 +1,20 @@
-import { Form, redirect, useLoaderData, useNavigate } from 'react-router-dom'
+import {
+  Form,
+  Link,
+  redirect,
+  useLoaderData,
+  useNavigate,
+} from 'react-router-dom'
 import { Client, getClient, updateClient } from '../services/client'
 import InfoPanel from '../components/InfoPanel'
 import SaveCancelBtnGroup from '../components/SaveCancelBtnGroup'
 import EditDeleteBtnGroup from '../components/EditDeleteBtnGroup'
+import { Contract, getContracts } from '../services/contract'
 
 export const loader = async ({ params }: any) => {
-  return await getClient(params.clientId)
+  const clients = await getClient(params.clientId)
+  const contracts = await getContracts({ clientId: parseInt(params.clientId) })
+  return { ...clients, contracts: contracts }
 }
 
 export async function action({ request, params }: any) {
@@ -20,7 +29,7 @@ interface ClientDetailProps {
 }
 
 const ClientDetail = (props: ClientDetailProps) => {
-  const client = useLoaderData() as Client
+  const client = useLoaderData() as any
   const navigate = useNavigate()
   const classesWhenEditable = 'rounded-md shadow-sm border'
 
@@ -67,6 +76,29 @@ const ClientDetail = (props: ClientDetailProps) => {
           </div>
         </Form>
         {!props.editable && <EditDeleteBtnGroup />}
+      </div>
+      <div>
+        <h2 className="mt-3 font-bold text-xl">Contracts</h2>
+        <ul>
+          {client.contracts.length > 0 ? (
+            client.contracts.map((contract: Contract, idx: number) => {
+              return (
+                <li key={idx}>
+                  {contract.type} &mdash; ({contract.startDate}&ndash;
+                  {contract.endDate})&nbsp;
+                  <Link
+                    to={`/contracts/${contract.id}`}
+                    className="underline text-blue-300"
+                  >
+                    View Contract
+                  </Link>
+                </li>
+              )
+            })
+          ) : (
+            <p>No contracts</p>
+          )}
+        </ul>
       </div>
     </InfoPanel>
   )
