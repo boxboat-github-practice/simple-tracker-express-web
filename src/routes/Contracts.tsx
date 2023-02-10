@@ -1,4 +1,4 @@
-import { Form, useLoaderData, redirect } from 'react-router-dom'
+import { Form, useLoaderData, redirect, Link } from 'react-router-dom'
 import Table from '../components/Table'
 import Row from '../components/Row'
 import { ReactComponent as ContractIcon } from '../assets/heroIcons/paper-clip.svg'
@@ -15,11 +15,6 @@ export const loader = async () => {
   }))
 
   return merged
-}
-
-export const action = async () => {
-  const contract = (await createContract()) as Contract
-  return redirect(`/contracts/${contract.id}/edit`)
 }
 
 const Contracts = () => {
@@ -45,14 +40,17 @@ const Contracts = () => {
           })}
         </>
         <div className="text-center">
-          <Form method="post">
+          <Link
+            to={'new'}
+            className="cursor-pointer text-blue-400 font-bold tracking-wide"
+          >
             <button
               type="submit"
               className="rounded-full bg-blue-400 text-gray-100 text-lg px-6 py-1 my-3"
             >
               New +
             </button>
-          </Form>
+          </Link>
         </div>
       </Table>
       <Outlet />

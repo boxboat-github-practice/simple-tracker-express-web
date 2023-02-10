@@ -25,10 +25,11 @@ import ClientDetail, {
 } from './routes/ClientDetail'
 import { action as clientDeleteAction } from './routes/ClientDestroy'
 
-import Contracts, {
-  loader as contractListLoader,
+import Contracts, { loader as contractListLoader } from './routes/Contracts'
+import ContractNew, {
+  loader as contractNewLoader,
   action as contractCreateAction,
-} from './routes/Contracts'
+} from './routes/ContractNew'
 import ContractDetail, {
   loader as contractLoader,
   action as contractEditAction,
@@ -94,7 +95,6 @@ const router = createBrowserRouter([
             path: 'contracts',
             element: <Contracts />,
             loader: contractListLoader,
-            action: contractCreateAction,
             id: 'contracts',
             children: [
               {
@@ -111,6 +111,12 @@ const router = createBrowserRouter([
               {
                 path: ':contractId/destroy',
                 action: contractDeleteAction,
+              },
+              {
+                path: 'new',
+                loader: contractNewLoader,
+                action: contractCreateAction,
+                element: <ContractNew />,
               },
             ],
           },

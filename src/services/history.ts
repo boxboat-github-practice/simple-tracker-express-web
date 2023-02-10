@@ -16,13 +16,13 @@ export const getHistoryList = async (
   } = {}
 ) => {
   let queryString = ''
-  if (query.employeeId) {
+  if (Number.isFinite(query.employeeId)) {
     queryString += `employeeId=${query.employeeId}&`
   }
-  if (query.contractId) {
+  if (Number.isFinite(query.contractId)) {
     queryString += `contractId=${query.contractId}&`
   }
-  if (query.clientId) {
+  if (Number.isFinite(query.clientId)) {
     queryString += `clientId=${query.clientId}&`
   }
   const response = await fetch(
@@ -40,10 +40,8 @@ export const getHistory = async (id: number) => {
 
 export const createHistory = async (newHistory: {
   employeeId: number
-  employeeName: string
   contractId: number
   clientId: number
-  clientName: string
   role: string
 }) => {
   const payload = newHistory

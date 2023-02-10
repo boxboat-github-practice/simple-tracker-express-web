@@ -97,7 +97,7 @@ app.delete('/clients/:id', function (req, res) {
 
 // contracts
 app.get('/contracts', function (req, res) {
-  if (req.query.clientId) {
+  if (req.query.clientId !== undefined) {
     let contracts = data.contracts.filter(e => e.clientId == req.query.clientId)
     res.send(contracts)
   } else {
@@ -106,7 +106,7 @@ app.get('/contracts', function (req, res) {
 })
 
 app.post('/contracts', function (req, res) {
-  if (req.body.clientId) {
+  if (req.body.clientId !== undefined) {
     let contract = {
       id: newId(),
       clientId: req.body.clientId,
@@ -145,11 +145,11 @@ app.delete('/contracts/:id', function (req, res) {
 // history
 app.get('/history', function (req, res) {
   let history = data.history
-  if (req.query.employeeId)
+  if (req.query.employeeId !== undefined)
     history = history.filter(e => e.employeeId == req.query.employeeId)
-  if (req.query.contractId)
+  if (req.query.contractId !== undefined)
     history = history.filter(e => e.contractId == req.query.contractId)
-  if (req.query.clientId)
+  if (req.query.clientId !== undefined)
     history = history.filter(e => e.clientId == req.query.clientId)
 
   res.send(history)
