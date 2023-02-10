@@ -5,24 +5,22 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Root from './routes/Root'
 import ErrorPage from './error-page'
 
-import Employees, {
-  loader as employeeListLoader,
-  action as employeeCreateAction,
-} from './routes/Employees'
+import Employees, { loader as employeeListLoader } from './routes/Employees'
 import EmployeeDetail, {
   loader as employeeLoader,
   action as employeeEditAction,
 } from './routes/EmployeeDetail'
+import EmployeeNew, {
+  action as employeeCreateAction,
+} from './routes/EmployeeNew'
 import { action as employeeDeleteAction } from './routes/EmployeeDestroy'
 
-import Clients, {
-  loader as clientListLoader,
-  action as clientCreateAction,
-} from './routes/Clients'
+import Clients, { loader as clientListLoader } from './routes/Clients'
 import ClientDetail, {
   loader as clientLoader,
   action as clientEditAction,
 } from './routes/ClientDetail'
+import ClientNew, { action as clientCreateAction } from './routes/ClientNew'
 import { action as clientDeleteAction } from './routes/ClientDestroy'
 
 import Contracts, { loader as contractListLoader } from './routes/Contracts'
@@ -49,7 +47,6 @@ const router = createBrowserRouter([
             path: 'employees',
             element: <Employees />,
             loader: employeeListLoader,
-            action: employeeCreateAction,
             children: [
               {
                 path: ':employeeId',
@@ -66,13 +63,17 @@ const router = createBrowserRouter([
                 path: ':employeeId/destroy',
                 action: employeeDeleteAction,
               },
+              {
+                path: 'new',
+                action: employeeCreateAction,
+                element: <EmployeeNew />,
+              },
             ],
           },
           {
             path: 'clients',
             element: <Clients />,
             loader: clientListLoader,
-            action: clientCreateAction,
             children: [
               {
                 path: ':clientId',
@@ -88,6 +89,11 @@ const router = createBrowserRouter([
               {
                 path: ':clientId/destroy',
                 action: clientDeleteAction,
+              },
+              {
+                path: 'new',
+                action: clientCreateAction,
+                element: <ClientNew />,
               },
             ],
           },

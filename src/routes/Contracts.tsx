@@ -1,8 +1,8 @@
-import { Form, useLoaderData, redirect, Link } from 'react-router-dom'
+import { useLoaderData, Link } from 'react-router-dom'
 import Table from '../components/Table'
 import Row from '../components/Row'
 import { ReactComponent as ContractIcon } from '../assets/heroIcons/paper-clip.svg'
-import { createContract, getContracts, Contract } from '../services/contract'
+import { getContracts } from '../services/contract'
 import { Outlet } from 'react-router-dom'
 import { getClients } from '../services/client'
 

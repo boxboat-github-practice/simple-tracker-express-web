@@ -1,4 +1,4 @@
-import { Form, useLoaderData, redirect } from 'react-router-dom'
+import { useLoaderData, redirect, Link } from 'react-router-dom'
 import Table from '../components/Table'
 import Row from '../components/Row'
 import { ReactComponent as UserIcon } from '../assets/heroIcons/user-circle.svg'
@@ -46,14 +46,17 @@ const Employees = () => {
           })}
         </>
         <div className="text-center">
-          <Form method="post">
+          <Link
+            to={'new'}
+            className="cursor-pointer text-blue-400 font-bold tracking-wide"
+          >
             <button
               type="submit"
               className="rounded-full bg-blue-400 text-gray-100 text-lg px-6 py-1 my-3"
             >
               New +
             </button>
-          </Form>
+          </Link>
         </div>
       </Table>
       <Outlet />
