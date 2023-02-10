@@ -1,20 +1,20 @@
-import Nav from '../components/Nav'
 import { Outlet, useNavigation } from 'react-router-dom'
+import ColorPalette from '../components/ColorPalette'
 
 const Root = () => {
   const navigation = useNavigation()
 
   return (
-    <div className="grid lg:grid-cols-5 h-screen">
-      <Nav />
+    <div className="flex flex-row justify-center">
       <main
-        className={`bg-blue-100 lg:col-span-4 flex flex-col p-4
+        className={`flex flex-col p-4
           ${navigation.state === 'loading' ? 'loading' : ''}`}
         id="main"
       >
         <div className="py-4">
           <Outlet />
         </div>
+        <ColorPalette />
       </main>
     </div>
   )
