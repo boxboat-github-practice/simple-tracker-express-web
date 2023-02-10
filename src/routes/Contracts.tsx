@@ -22,23 +22,21 @@ const Contracts = () => {
 
   return (
     <>
-      <Table title="Contracts">
-        <>
-          {contracts.map(contract => {
-            return (
-              <Row key={contract.id} objectId={contract.id}>
-                <div className="flex flex-row items-center">
-                  <ContractIcon className="w-14 h-14" />
-                  <div className="ml-2">
-                    <p className="text-xl tracking-wide text-gray-900">
-                      {contract.clientName}: {contract.type}
-                    </p>
-                  </div>
+      <Table>
+        {contracts.map(contract => {
+          return (
+            <Row key={contract.id} objectId={contract.id}>
+              <div className="flex flex-row items-center">
+                <ContractIcon className="w-14 h-14" />
+                <div className="ml-2">
+                  <p className="text-xl tracking-wide text-gray-900">
+                    {contract.clientName}: {contract.type}
+                  </p>
                 </div>
-              </Row>
-            )
-          })}
-        </>
+              </div>
+            </Row>
+          )
+        })}
         <div className="text-center">
           <Link
             to={'new'}

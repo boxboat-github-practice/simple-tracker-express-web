@@ -14,7 +14,7 @@ const EmployeeNew = () => {
   const navigate = useNavigate()
 
   return (
-    <InfoPanel title="Employee">
+    <InfoPanel title="New Employee">
       <div className="p-2">
         <Form method="post" id="employee-edit-form">
           <div className="my-2">

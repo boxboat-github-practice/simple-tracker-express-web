@@ -19,32 +19,30 @@ const Employees = () => {
 
   return (
     <>
-      <Table title="Employees">
-        <>
-          {employees.map(employee => {
-            return (
-              <Row key={employee.id} objectId={employee.id}>
-                <div className="flex flex-row items-center">
-                  <UserIcon className="w-14 h-14" />
-                  <div className="ml-2">
-                    <p className="text-xl tracking-wide text-gray-900">
-                      {employee.name}
-                    </p>
-                    <p className="text-sm text-gray-700">
-                      Github:&nbsp;
-                      <a
-                        href={`https://github.com/${employee.github}`}
-                        className="text-blue-300 underline"
-                      >
-                        {employee.github}
-                      </a>
-                    </p>
-                  </div>
+      <Table>
+        {employees.map(employee => {
+          return (
+            <Row key={employee.id} objectId={employee.id}>
+              <div className="flex flex-row items-center">
+                <UserIcon className="w-14 h-14" />
+                <div className="ml-2">
+                  <p className="text-xl tracking-wide text-gray-900">
+                    {employee.name}
+                  </p>
+                  <p className="text-sm text-gray-700">
+                    Github:&nbsp;
+                    <a
+                      href={`https://github.com/${employee.github}`}
+                      className="text-blue-300 underline"
+                    >
+                      {employee.github}
+                    </a>
+                  </p>
                 </div>
-              </Row>
-            )
-          })}
-        </>
+              </div>
+            </Row>
+          )
+        })}
         <div className="text-center">
           <Link
             to={'new'}
